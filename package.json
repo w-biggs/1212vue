@@ -5,7 +5,7 @@
   "author": "W Biggs",
   "private": true,
   "scripts": {
-    "push": "rsync -rvzh --progress --delete ./ server:/srv/1212vue",
+    "push": "rsync -rzh --info=progress2 --no-inc-recursive --delete ./ server:/srv/1212vue",
     "dev": "nuxt",
     "buildstart": "nuxt build && nuxt start",
     "build": "nuxt build",
