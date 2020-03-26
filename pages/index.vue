@@ -1,72 +1,79 @@
 <template>
-  <div class="container">
-    <div>
-      <logo />
-      <h1 class="title">
-        OneTwoOneTwo
-      </h1>
-      <h2 class="subtitle">
-        1212.one reimplemented in Vue.js
-      </h2>
-      <div class="links">
-        <a
-          href="https://nuxtjs.org/"
-          target="_blank"
-          class="button--green"
-        >
-          Documentation
-        </a>
-        <a
-          href="https://github.com/nuxt/nuxt.js"
-          target="_blank"
-          class="button--grey"
-        >
-          GitHub
-        </a>
-      </div>
-    </div>
+  <div class="home-container">
+    <Scoreboard v-bind:games="games" />
   </div>
 </template>
 
 <script>
-import Logo from '~/components/Logo.vue'
+import Scoreboard from '../components/Scoreboard';
 
 export default {
   components: {
-    Logo
-  }
+    Scoreboard
+  },
+  data() {
+    return {
+      games: [{
+        homeTeam: {
+          team: {
+            name: 'Loading...',
+          },
+          stats: {
+            score: {
+              final: '--',
+            },
+          },
+        },
+        awayTeam: {
+          team: {
+            name: 'Loading...',
+          },
+          stats: {
+            score: {
+              final: '--',
+            },
+          },
+        },
+        live: false,
+      }],
+    };
+  },
+  asyncData({ $axios, isDev }) {
+    const apiLink = isDev ? 'http://localhost:1212' : 'http://1212.one/api';
+    return $axios.$get(`${apiLink}/games/2/1/`)
+      .then((response) => {
+        if (response.games) {
+          return { games: response.games };
+        }
+        return false;
+      });
+  },
 }
 </script>
 
-<style>
-.container {
-  margin: 0 auto;
-  min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-}
+<style lang="scss" scoped>
+  @import "~assets/scss/variables";
 
-.title {
-  font-family: 'Quicksand', 'Source Sans Pro', -apple-system, BlinkMacSystemFont,
-    'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-  display: block;
-  font-weight: 300;
-  font-size: 100px;
-  color: #35495e;
-  letter-spacing: 1px;
-}
+  .home-container {
+    grid-template-columns: 1fr;
+    grid-template-rows: $header-height auto auto auto $footer-height;
+    grid-template-areas:
+      "header"
+      "scboard"
+      "listing"
+      "elo"
+      "footer";
+  }
 
-.subtitle {
-  font-weight: 300;
-  font-size: 42px;
-  color: #526488;
-  word-spacing: 5px;
-  padding-bottom: 15px;
-}
-
-.links {
-  padding-top: 15px;
-}
+  @media screen and (min-width: $breakpoint-md){
+    .home-container {
+      grid-template-columns: 1fr 1fr 1fr 15rem;
+      grid-template-rows: $header-height auto auto $footer-height;
+      grid-template-areas:
+        "header header header header"
+        "scboard scboard scboard scboard"
+        "elo elo elo listing"
+        "footer footer footer footer";
+    }
+  }
 </style>
