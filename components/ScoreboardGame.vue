@@ -2,7 +2,7 @@
   <div class="game">
     <div class="teams">
       <div class="team">
-        <div v-bind:class="['team-name', game.live && game.status.homeOffense ? '' : 'is-defense']">
+        <div v-bind:class="['team-name', game.live && !game.status.homeOffense ? 'is-defense' : '']">
           {{game.homeTeam.team.name}}
         </div>
         <div v-bind:class="['team-score', game.live ? '' : 'is-final', game.homeTeam.stats.score.final > game.awayTeam.stats.score.final ? 'is-win' : 'is-loss']">

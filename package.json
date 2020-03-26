@@ -5,16 +5,16 @@
   "author": "W Biggs",
   "private": true,
   "scripts": {
+    "push": "rsync -rvzh --progress --delete ./ server:/srv/1212vue",
     "dev": "nuxt",
+    "buildstart": "nuxt build && nuxt start",
     "build": "nuxt build",
     "start": "nuxt start",
     "generate": "nuxt generate"
   },
   "dependencies": {
     "@nuxtjs/axios": "^5.3.6",
-    "nuxt": "^2.0.0"
-  },
-  "devDependencies": {
+    "nuxt": "^2.0.0",
     "mathsass": "^0.11.0",
     "node-sass": "^4.13.1",
     "sass-loader": "^8.0.2"
