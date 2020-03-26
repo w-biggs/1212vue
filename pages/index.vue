@@ -36,6 +36,7 @@ export default {
         },
         live: false,
       }],
+      isDev: false,
     };
   },
   asyncData({ $axios, isDev }) {
@@ -43,11 +44,29 @@ export default {
     return $axios.$get(`${apiLink}/games/3/1/`)
       .then((response) => {
         if (response.games) {
-          return { games: response.games };
+          return {
+            games: response.games,
+            isDev,
+          };
         }
         return false;
       });
   },
+  mounted() {
+    if (process.client) {
+      const apiLink = this.isDev ? 'http://localhost:12121' : 'https://api.1212.one';
+      setInterval(function() {
+        return this.$axios.$get(`${apiLink}/games/3/1/`)
+          .then((response) => {
+            if (response.games) {
+              console.log('fetched games');
+              this.games = response.games;
+            }
+          })
+          .catch(console.error);
+      }.bind(this), 60000);
+    }
+  }
 }
 </script>
 
