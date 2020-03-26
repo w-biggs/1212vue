@@ -40,7 +40,7 @@ export default {
   },
   asyncData({ $axios, isDev }) {
     const apiLink = isDev ? 'http://localhost:1212' : 'http://1212.one/api';
-    return $axios.$get(`${apiLink}/games/2/1/`)
+    return $axios.$get(`${apiLink}/games/3/1/`)
       .then((response) => {
         if (response.games) {
           return { games: response.games };
