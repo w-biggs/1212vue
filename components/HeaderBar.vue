@@ -7,8 +7,10 @@
       <li class="nav-item is-disabled">
         <span>Articles</span>
       </li>
-      <li class="nav-item is-disabled">
-        <span>Scores</span>
+      <li v-bind:class="['nav-item', $nuxt.$route.name === 'scores-season-week' ? 'is-active' : '']">
+        <nuxt-link to="/scores">
+          Scores
+        </nuxt-link>
       </li>
       <li class="nav-item is-disabled">
         <span>Standings</span>
