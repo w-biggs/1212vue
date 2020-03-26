@@ -54,7 +54,7 @@ export default {
           const whoseYardLine = this.game.awayTeam.team.abbreviation;
           yardLineString = `${whoseYardLine} ${100 - this.game.status.yardLine}`;
         } else if (this.game.status.yardLine < 50) {
-          const whoseYardLine = this.game.awayTeam.team.abbreviation;
+          const whoseYardLine = this.game.homeTeam.team.abbreviation;
           yardLineString = `${whoseYardLine} ${this.game.status.yardLine}`;
         }
 
