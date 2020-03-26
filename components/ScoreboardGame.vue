@@ -81,9 +81,9 @@ export default {
         timeString = `${Math.round(timeDiff / 60)} min${Math.round(timeDiff / 60) > 1 ? 's' : ''}`;
       }
       if (this.game.live) {
-        return `Last play ${timeString} ago`;
+        return `Last play ${timeString} ago >`;
       }
-      return `Finished ${timeString} ago`;;
+      return `Finished ${timeString} ago >`;
     },
   },
 }
