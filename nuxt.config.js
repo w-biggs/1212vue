@@ -49,7 +49,7 @@ export default {
   ** Plugins to load before mounting the App
   */
   plugins: [
-    { src: '~/assets/js/lazy-load.js', ssr: false },
+    { src: '~/assets/js/lazy-load.js', mode: 'client' },
   ],
   /*
   ** Nuxt.js dev-modules

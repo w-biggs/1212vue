@@ -1,6 +1,8 @@
 /**
  * Handle image lazyloading.
  */
+// eslint-disable-next-line import/no-extraneous-dependencies
+import Vue from 'vue';
 
 const imageObserver = new IntersectionObserver((entries) => {
   for (let i = 0; i < entries.length; i += 1) {
@@ -12,9 +14,4 @@ const imageObserver = new IntersectionObserver((entries) => {
   }
 });
 
-const images = document.getElementsByClassName('lazy-img');
-
-for (let i = 0; i < images.length; i += 1) {
-  const image = images[i];
-  imageObserver.observe(image);
-}
+Vue.prototype.$lazyLoad = imageElement => imageObserver.observe(imageElement);
