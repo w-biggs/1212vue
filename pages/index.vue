@@ -1,15 +1,18 @@
 <template>
   <div class="home-container">
     <Scoreboard v-bind:games="games" />
+    <HomeMetrics v-bind:metrics="metrics" />
   </div>
 </template>
 
 <script>
 import Scoreboard from '../components/Scoreboard';
+import HomeMetrics from '../components/HomeMetrics';
 
 export default {
   components: {
-    Scoreboard
+    Scoreboard,
+    HomeMetrics,
   },
   data() {
     return {
@@ -37,20 +40,22 @@ export default {
         live: false,
       }],
       isDev: false,
+      metrics: [],
     };
   },
-  asyncData({ $axios, isDev }) {
+  async asyncData({ $axios, isDev }) {
+    const returnData = {
+      isDev,
+    };
     const apiLink = isDev ? 'http://localhost:12121' : 'https://api.1212.one';
-    return $axios.$get(`${apiLink}/games/3/1/`)
-      .then((response) => {
-        if (response.games) {
-          return {
-            games: response.games,
-            isDev,
-          };
-        }
-        return false;
-      });
+    const games = await $axios.$get(`${apiLink}/games/3/1/`);
+    if (games.games) {
+      returnData.games = games.games;
+    }
+    const metrics = await $axios.$get(`${apiLink}/metrics/`);
+    const sortedMetrics = metrics.sort((b, a) => a.elo - b.elo);
+    returnData.metrics = sortedMetrics;
+    return returnData;
   },
   mounted() {
     if (process.client) {
