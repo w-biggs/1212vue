@@ -42,6 +42,7 @@ export const actions = {
 
 export const getters = {
   metrics: state => state.metrics,
+  test: state => state.test,
 };
 
 export const state = () => ({

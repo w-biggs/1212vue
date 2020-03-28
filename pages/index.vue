@@ -19,9 +19,10 @@ export default {
       gameRefresh: null,
     };
   },
+  async fetch({ store }) {
+    await store.dispatch('games/get');
+  },
   mounted() {
-    this.$store.dispatch('games/get');
-    this.$store.dispatch('metrics/get');
     this.gameRefresh = setInterval(() => {
       this.$store.dispatch('games/get');
     }, 60000);
