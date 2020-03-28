@@ -1,69 +1,72 @@
 <template>
   <div class="metrics">
     <h2 class="section-header">Metrics</h2>
-    <table :class="['table', collapsed ? 'is-collapsed' : '']">
-      <thead>
-        <tr>
-          <th class="elo-rating" v-on:click="setSort(false, $event)">
-            <span>Elo</span>
-            <div :class="['sorter', sorterClass('elo-rating')]">
-              <span class="asc">▲</span>
-              <span class="desc">▼</span>
-            </div>
-          </th>
-          <th class="elo-change" v-on:click="setSort(false, $event)">
-            <span>±</span>
-            <div :class="['sorter', sorterClass('elo-change')]">
-              <span class="asc">▲</span>
-              <span class="desc">▼</span>
-            </div>
-          </th>
-          <th class="team" v-on:click="setSort(true, $event)">
-            <span>TEAM</span>
-            <div :class="['sorter', sorterClass('team')]">
-              <span class="asc">▲</span>
-              <span class="desc">▼</span>
-            </div>
-          </th>
-          <th class="conf" v-on:click="setSort(true, $event)">
-            <span>Conference<span class="elo-div"> / Division</span></span>
-            <div :class="['sorter', sorterClass('conf')]">
-              <span class="asc">▲</span>
-              <span class="desc">▼</span>
-            </div>
-          </th>
-        </tr>
-      </thead>
-      <tbody ref="metricsTableBody">
-        <tr v-for="team in compileMetrics" :key="team.name">
-          <td class="elo-rating" :title="team.elo.toFixed(4)" :data-value="team.elo">
-            <span>{{ Math.round(team.elo) }}</span>
-          </td>
-          <td class="elo-change" :title="team.eloChange.toFixed(4)" :data-value="team.eloChange">
-            <span v-if="team.seasonNo === 3 && team.weekNo === 1" :class="['elo-change-value', team.eloChange < 0 ? 'is-decrease' : 'is-increase']">
-              {{ team.eloChange > 0 ? '+' : '' }}{{ Math.round(team.eloChange) }}
-            </span>
-          </td>
-          <td class="team" :data-value="team.name">
-            <a :href="`#${encodeURI(team.name)}`">
-              <LazyImg divClass="team-logo" :data-bg="require(`~/assets/images/logos/${team.abbreviation}.svg`)" aria-hidden="true" />
-              <span>{{ team.name }}</span>
-            </a>
-          </td>
-          <td class="conf" :title="`${team.conf} - ${team.div}`" :data-value="`${team.conf} - ${team.div}`">
-            {{ team.conf }}
-            <span class="div" v-if="team.div !== 'N/A'">
-              - {{ team.div }}
-            </span>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-    <div class="expand">
-      <button :aria-expanded="!collapsed" v-on:click="handleMetricsButton">
-        {{ collapsed ? 'Show more' : 'Show less' }}
-      </button>
-    </div>
+    <template v-if="metrics.length">
+      <table :class="['table', collapsed ? 'is-collapsed' : '']">
+        <thead>
+          <tr>
+            <th class="elo-rating" v-on:click="setSort(false, $event)">
+              <span>Elo</span>
+              <div :class="['sorter', sorterClass('elo-rating')]">
+                <span class="asc">▲</span>
+                <span class="desc">▼</span>
+              </div>
+            </th>
+            <th class="elo-change" v-on:click="setSort(false, $event)">
+              <span>±</span>
+              <div :class="['sorter', sorterClass('elo-change')]">
+                <span class="asc">▲</span>
+                <span class="desc">▼</span>
+              </div>
+            </th>
+            <th class="team" v-on:click="setSort(true, $event)">
+              <span>TEAM</span>
+              <div :class="['sorter', sorterClass('team')]">
+                <span class="asc">▲</span>
+                <span class="desc">▼</span>
+              </div>
+            </th>
+            <th class="conf" v-on:click="setSort(true, $event)">
+              <span>Conference<span class="elo-div"> / Division</span></span>
+              <div :class="['sorter', sorterClass('conf')]">
+                <span class="asc">▲</span>
+                <span class="desc">▼</span>
+              </div>
+            </th>
+          </tr>
+        </thead>
+        <tbody ref="metricsTableBody">
+          <tr v-for="team in metrics" :key="team.name">
+            <td class="elo-rating" :title="team.elo.toFixed(4)" :data-value="team.elo">
+              <span>{{ Math.round(team.elo) }}</span>
+            </td>
+            <td class="elo-change" :title="team.eloChange && team.eloChange.toFixed(4)" :data-value="team.eloChange">
+              <span v-if="team.eloChange" :class="['elo-change-value', team.eloChange < 0 ? 'is-decrease' : 'is-increase']">
+                {{ team.eloChange > 0 ? '+' : '' }}{{ Math.round(team.eloChange) }}
+              </span>
+            </td>
+            <td class="team" :data-value="team.name">
+              <a :href="`#${encodeURI(team.name)}`">
+                <LazyImg divClass="team-logo" :data-bg="require(`~/assets/images/logos/${team.abbreviation}.svg`)" aria-hidden="true" />
+                <span>{{ team.name }}</span>
+              </a>
+            </td>
+            <td class="conf" :title="`${team.conf} - ${team.div}`" :data-value="`${team.conf} - ${team.div}`">
+              {{ team.conf }}
+              <span class="div" v-if="team.div !== 'N/A'">
+                - {{ team.div }}
+              </span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="expand">
+        <button :aria-expanded="!collapsed" v-on:click="handleMetricsButton">
+          {{ collapsed ? 'Show more' : 'Show less' }}
+        </button>
+      </div>
+    </template>
+    <span v-else>Loading...</span>
   </div>
 </template>
 
@@ -74,7 +77,6 @@ export default {
   components: {
     LazyImg
   },
-  props: ['metrics'],
   data() {
     return {
       collapsed: true,
@@ -85,10 +87,6 @@ export default {
     };
   },
   methods: {
-    getLatestWeek(team) {
-      const latestSeason = team.seasons[team.seasons.length - 1];
-      return latestSeason.weeks[latestSeason.weeks.length - 1];
-    },
     handleMetricsButton(event) {
       this.collapsed = !this.collapsed;
     },
@@ -155,23 +153,13 @@ export default {
     },
   },
   computed: {
-    compileMetrics() {
-      return this.metrics.map((team) => {
-        const latestWeek = this.getLatestWeek(team);
-        const currentDiv = team.team.division[team.team.division.length - 1];
-        return {
-          name: team.team.name,
-          abbreviation: team.team.abbreviation,
-          div: currentDiv.name,
-          conf: currentDiv.conference.name,
-          elo: latestWeek.elo.elo,
-          eloChange: latestWeek.elo.elo - latestWeek.elo.oldElo,
-          seasonNo: team.seasons[team.seasons.length - 1].season.seasonNo,
-          weekNo: latestWeek.week ? latestWeek.week.weekNo : -1,
-        };
-      });
-    }
-  }
+    current() {
+      return this.$store.state.games.current;
+    },
+    metrics() {
+      return this.$store.state.metrics.metrics;
+    },
+  },
 }
 </script>
 

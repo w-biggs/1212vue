@@ -25,16 +25,18 @@ export default {
   components: {
     ScoreboardGame
   },
-  props: ['games'],
   data() {
     return {
       gamesMaxHeight: 'none',
-      overflowing: false,
+      overflowing: true,
       collapsed: true,
     };
   },
-  mounted() {
-    if (process.client) {
+  methods: {
+    handleScoreboardButton: function(event) {
+      this.collapsed = !this.collapsed;
+    },
+    checkOverflow() {
       // Set the max height of the scoreboard to two rows.
       const maxHeight = getMaxHeight();
 
@@ -42,19 +44,28 @@ export default {
 
       // Check if button should be shown
       this.overflowing = checkShowButton(maxHeight);
-
-      window.addEventListener('resize', () => {
-        debounce(() => {
-          this.overflowing = checkShowButton(maxHeight);
-        }, 300);
-      });
     }
   },
-  methods: {
-    handleScoreboardButton: function(event) {
-      this.collapsed = !this.collapsed;
-    },
+  mounted() {
+    this.checkOverflow();
+    window.addEventListener('resize', () => {
+      debounce(() => {
+        this.checkOverflow();
+      }, 300);
+    });
   },
+  computed: {
+    games() {
+      return this.$store.state.games.games;
+    }
+  },
+  watch: {
+    games() {
+      this.$nextTick(() => {
+        this.checkOverflow();
+      });
+    }
+  }
 }
 </script>
 

@@ -1,7 +1,7 @@
 <template>
   <div class="home-container">
-    <Scoreboard v-bind:games="games" />
-    <HomeMetrics v-bind:metrics="metrics" />
+    <Scoreboard />
+    <HomeMetrics />
   </div>
 </template>
 
@@ -16,61 +16,19 @@ export default {
   },
   data() {
     return {
-      games: [{
-        homeTeam: {
-          team: {
-            name: 'Loading...',
-          },
-          stats: {
-            score: {
-              final: '--',
-            },
-          },
-        },
-        awayTeam: {
-          team: {
-            name: 'Loading...',
-          },
-          stats: {
-            score: {
-              final: '--',
-            },
-          },
-        },
-        live: false,
-      }],
-      isDev: false,
-      metrics: [],
+      gameRefresh: null,
     };
-  },
-  async asyncData({ $axios, isDev }) {
-    const returnData = {
-      isDev,
-    };
-    const apiLink = isDev ? 'http://localhost:12121' : 'https://api.1212.one';
-    const games = await $axios.$get(`${apiLink}/games/3/1/`);
-    if (games.games) {
-      returnData.games = games.games;
-    }
-    const metrics = await $axios.$get(`${apiLink}/metrics/`);
-    const sortedMetrics = metrics.sort((b, a) => a.elo - b.elo);
-    returnData.metrics = sortedMetrics;
-    return returnData;
   },
   mounted() {
-    if (process.client) {
-      const apiLink = this.isDev ? 'http://localhost:12121' : 'https://api.1212.one';
-      setInterval(function() {
-        return this.$axios.$get(`${apiLink}/games/3/1/`)
-          .then((response) => {
-            if (response.games) {
-              console.log('fetched games');
-              this.games = response.games;
-            }
-          })
-          .catch(console.error);
-      }.bind(this), 60000);
-    }
+    this.$store.dispatch('games/get');
+    this.$store.dispatch('metrics/get');
+    this.gameRefresh = setInterval(() => {
+      this.$store.dispatch('games/get');
+    }, 60000);
+  },
+  beforeRouteLeave(to, from, next) {
+    clearInterval(this.gameRefresh);
+    next();
   }
 }
 </script>
