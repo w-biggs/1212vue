@@ -40,7 +40,7 @@
             <td class="elo-rating" :title="team.elo.toFixed(4)" :data-value="team.elo">
               <span>{{ Math.round(team.elo) }}</span>
             </td>
-            <td class="elo-change" :title="team.eloChange && team.eloChange.toFixed(4)" :data-value="team.eloChange">
+            <td class="elo-change" :title="team.eloChange && team.eloChange.toFixed(4)" :data-value="team.eloChange || '0'">
               <span v-if="team.eloChange" :class="['elo-change-value', team.eloChange < 0 ? 'is-decrease' : 'is-increase']">
                 {{ team.eloChange > 0 ? '+' : '' }}{{ Math.round(team.eloChange) }}
               </span>
