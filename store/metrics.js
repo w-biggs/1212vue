@@ -7,10 +7,7 @@ export const mutations = {
 
 export const actions = {
   async get({ commit, rootState }) {
-    const isDev = process.env.NODE_ENV === 'development';
-    const apiLink = isDev ? 'http://localhost:12121' : 'https://api.1212.one';
-
-    const rawMetrics = await this.$axios.$get(`${apiLink}/metrics/`);
+    const rawMetrics = await this.$axios.$get('http://localhost:12121/metrics/');
     const sortedMetrics = rawMetrics.sort((b, a) => a.elo - b.elo);
 
     const metrics = sortedMetrics.map((team) => {

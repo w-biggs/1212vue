@@ -8,10 +8,7 @@ export const mutations = {
 export const actions = {
   async get({ commit, getters }) {
     const { current } = getters;
-    const isDev = process.env.NODE_ENV === 'development';
-    const apiLink = isDev ? 'http://localhost:12121' : 'https://api.1212.one';
-
-    const { games } = await this.$axios.$get(`${apiLink}/games/${current.season}/${current.week}/`);
+    const { games } = await this.$axios.$get(`http://localhost:12121/games/${current.season}/${current.week}/`);
     console.log('got games');
     await commit('set', games);
   },
