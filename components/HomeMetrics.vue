@@ -99,9 +99,6 @@ export default {
       const cellA = rowA.getElementsByClassName(this.sort.by)[0];
       const cellB = rowB.getElementsByClassName(this.sort.by)[0];
 
-      console.log(cellA);
-      console.log(cellB);
-
       // Check if it's a number - if it is, sort it as a number.
       const valA = Number.isNaN(parseFloat(cellA.dataset.value))
         ? cellA.dataset.value : parseFloat(cellA.dataset.value);
