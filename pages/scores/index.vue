@@ -1,7 +1,9 @@
 <script>
 export default {
-  fetch({ redirect }) {
-    return redirect('/scores/3/1');
+  fetch({ redirect, store }) {
+    const current = store.state.games.current;
+    console.log(current);
+    return redirect(`/scores/${current.season}/${current.week}/`);
   },
 };
 </script>

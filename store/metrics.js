@@ -17,6 +17,7 @@ export const actions = {
 
     const metrics = sortedMetrics.map((team) => {
       const currentDiv = team.team.division[team.team.division.length - 1];
+      const currentConf = currentDiv.conference ? currentDiv.conference.name : null;
       const latestSeason = team.seasons[team.seasons.length - 1];
       const latestWeek = latestSeason.weeks[latestSeason.weeks.length - 1];
       const { seasonNo } = latestSeason.season;
@@ -29,7 +30,7 @@ export const actions = {
         name: team.team.name,
         abbreviation: team.team.abbreviation,
         div: currentDiv.name,
-        conf: currentDiv.conference.name,
+        conf: currentConf,
         elo: latestWeek.elo.elo,
         eloChange,
         seasonNo,
@@ -38,13 +39,12 @@ export const actions = {
     });
 
     console.log('got metrics');
-    await commit('set', metrics);
+    await commit('set', metrics.filter(team => team.conf !== null));
   },
 };
 
 export const getters = {
   metrics: state => state.metrics,
-  test: state => state.test,
 };
 
 export const state = () => ({

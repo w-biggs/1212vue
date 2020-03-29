@@ -81,4 +81,13 @@ export default {
 
     },
   },
+  router: {
+    extendRoutes(routes, resolve) {
+      routes.push({
+        path: '/scores/:season/:week/:conf?',
+        component: resolve(__dirname, 'pages/scores/_season/_week/index.vue'),
+        name: 'scores-season-week-conf',
+      });
+    },
+  },
 };
