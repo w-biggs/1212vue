@@ -7,7 +7,13 @@ export const mutations = {
 
 export const actions = {
   async get({ commit, rootState }) {
+    const isDev = process.env.NODE_ENV === 'development';
+    const startTime = process.hrtime();
     const rawMetrics = await this.$axios.$get('http://localhost:12121/metrics/');
+    const fetchTime = process.hrtime(startTime);
+    if (isDev) {
+      console.log(`Metrics fetch took ${fetchTime[0]}s ${fetchTime[1] / 1e6}ms`);
+    }
     const sortedMetrics = rawMetrics.sort((b, a) => a.elo - b.elo);
 
     const metrics = sortedMetrics.map((team) => {
