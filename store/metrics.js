@@ -7,13 +7,12 @@ export const mutations = {
 
 export const actions = {
   async get({ commit, rootState }) {
-    const isDev = process.env.NODE_ENV === 'development';
+    const useRemote = process.browser && (process.env.NODE_ENV === 'production');
+    const apiLink = useRemote ? 'https://api.1212.one' : 'http://localhost:12121';
     const startTime = process.hrtime();
-    const rawMetrics = await this.$axios.$get('http://localhost:12121/metrics/');
+    const rawMetrics = await this.$axios.$get(`${apiLink}/metrics/`);
     const fetchTime = process.hrtime(startTime);
-    if (isDev) {
-      console.log(`Metrics fetch took ${fetchTime[0]}s ${fetchTime[1] / 1e6}ms`);
-    }
+    console.log(`Metrics fetch took ${fetchTime[0]}s ${fetchTime[1] / 1e6}ms`);
     const sortedMetrics = rawMetrics.sort((b, a) => a.elo - b.elo);
 
     const metrics = sortedMetrics.map((team) => {
