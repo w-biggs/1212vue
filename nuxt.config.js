@@ -34,6 +34,9 @@ export default {
       { rel: 'mask-icon', href: '/safari-pinned-tab.svg', color: '#f17041' },
       { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700&display=swap&subset=latin-ext' },
     ],
+    script: [
+      { src: '/atx.js' },
+    ],
   },
   /*
   ** Customize the progress-bar color
