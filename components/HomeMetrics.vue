@@ -46,7 +46,7 @@
               </span>
             </td>
             <td class="team" :data-value="team.name">
-              <a :href="`#${encodeURI(team.name)}`">
+              <a href="#" v-on:click="openChart(team, $event)">
                 <LazyImg divClass="team-logo" :data-bg="require(`~/assets/images/logos/${team.abbreviation}.svg`)" aria-hidden="true" />
                 <span>{{ team.name }}</span>
               </a>
@@ -67,15 +67,18 @@
       </div>
     </template>
     <span v-else>Loading...</span>
+    <EloChart v-if="chartOpen" v-on:closeChart="closeChart" :team="chartTeam" ref="eloChart" />
   </div>
 </template>
 
 <script>
 import LazyImg from '~/components/LazyImg';
+import EloChart from '~/components/EloChart';
 
 export default {
   components: {
-    LazyImg
+    LazyImg,
+    EloChart,
   },
   data() {
     return {
@@ -84,6 +87,8 @@ export default {
         by: 'elo-rating',
         asc: false,
       },
+      chartOpen: false,
+      chartTeam: null,
     };
   },
   methods: {
@@ -148,6 +153,14 @@ export default {
       }
       return '';
     },
+    openChart(team, event) {
+      event.preventDefault();
+      this.chartOpen = true;
+      this.chartTeam = team;
+    },
+    closeChart() {
+      this.chartOpen = false;
+    }
   },
   computed: {
     current() {

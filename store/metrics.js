@@ -1,7 +1,10 @@
 /* eslint-disable no-param-reassign */
 export const mutations = {
-  set(state, metrics) {
+  setMetrics(state, metrics) {
     state.metrics = metrics;
+  },
+  setRanges(state, ranges) {
+    state.ranges = ranges;
   },
 };
 
@@ -10,7 +13,8 @@ export const actions = {
     const useRemote = process.browser && (process.env.NODE_ENV === 'production');
     const apiLink = useRemote ? 'https://api.1212.one' : 'http://localhost:12121';
     const startTime = process.hrtime();
-    const rawMetrics = await this.$axios.$get(`${apiLink}/metrics/`);
+    const response = await this.$axios.$get(`${apiLink}/metrics/`);
+    const rawMetrics = response.teams;
     const fetchTime = process.hrtime(startTime);
     console.log(`Metrics fetch took ${fetchTime[0]}s ${fetchTime[1] / 1e6}ms`);
     const sortedMetrics = rawMetrics.sort((b, a) => a.elo - b.elo);
@@ -32,14 +36,17 @@ export const actions = {
         div: currentDiv.name,
         conf: currentConf,
         elo: latestWeek.elo.elo,
+        color: team.team.color,
         eloChange,
         seasonNo,
         weekNo,
+        seasons: team.seasons,
       };
     });
 
     console.log('got metrics');
-    await commit('set', metrics.filter(team => team.conf !== null));
+    await commit('setMetrics', metrics.filter(team => team.conf !== null));
+    await commit('setRanges', response.ranges);
   },
 };
 
@@ -49,4 +56,5 @@ export const getters = {
 
 export const state = () => ({
   metrics: [],
+  ranges: [],
 });

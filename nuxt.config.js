@@ -50,6 +50,7 @@ export default {
   */
   plugins: [
     { src: '~/assets/js/lazy-load.js', mode: 'client' },
+    { src: '~/plugins/highcharts.js', mode: 'client' },
   ],
   /*
   ** Nuxt.js dev-modules
