@@ -17,9 +17,8 @@ export const actions = {
     const rawMetrics = response.teams;
     const fetchTime = process.hrtime(startTime);
     console.log(`Metrics fetch took ${fetchTime[0]}s ${fetchTime[1] / 1e6}ms`);
-    const sortedMetrics = rawMetrics.sort((b, a) => a.elo - b.elo);
 
-    const metrics = sortedMetrics.map((team) => {
+    const metrics = rawMetrics.map((team) => {
       const currentDiv = team.team.division[team.team.division.length - 1];
       const currentConf = currentDiv.conference ? currentDiv.conference.name : null;
       const latestSeason = team.seasons[team.seasons.length - 1];
@@ -44,8 +43,10 @@ export const actions = {
       };
     });
 
+    const sortedMetrics = metrics.sort((b, a) => a.elo - b.elo);
+
     console.log('got metrics');
-    await commit('setMetrics', metrics.filter(team => team.conf !== null));
+    await commit('setMetrics', sortedMetrics.filter(team => team.conf !== null));
     await commit('setRanges', response.ranges);
   },
 };
