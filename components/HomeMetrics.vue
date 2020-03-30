@@ -50,6 +50,9 @@
                 <LazyImg divClass="team-logo" :data-bg="require(`~/assets/images/logos/${team.abbreviation}.svg`)" aria-hidden="true" />
                 <span>{{ team.name }}</span>
               </a>
+              <span class="record">
+                ({{`${team.record.wins}-${team.record.losses}${team.record.ties ? '-' + team.record.ties : ''}`}})
+              </span>
             </td>
             <td class="conf" :title="`${team.conf} - ${team.div}`" :data-value="`${team.conf} - ${team.div}`">
               {{ team.conf }}

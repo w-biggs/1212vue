@@ -208,17 +208,18 @@ export default {
         let ties = 0;
 
         const season = this.team.seasons.find(teamSeason => teamSeason.season.seasonNo === seasonNo);
+        // console.log(season);
 
         season.weeks.forEach((week) => {
-          if (week.weekNo <= weekNo && Object.prototype.hasOwnProperty.call(week, 'game')) {
+          if (week.week && (week.week.weekNo <= weekNo)) {
             const isHome = week.game.homeTeam.team.name === this.team.name;
             const homeMargin = week.game.homeTeam.stats.score.final - week.game.awayTeam.stats.score.final;
-            if (homeMargin > 0) {
-              wins += 1;
-            } else if (homeMargin < 0) {
-              losses += 1;
-            } else {
+            if (homeMargin === 0) {
               ties += 1;
+            } else if (isHome === (homeMargin > 0)) {
+              wins += 1;
+            } else {
+              losses += 1;
             }
           }
         });

@@ -29,6 +29,26 @@ export const actions = {
         && rootState.games.current.week === weekNo)
         ? latestWeek.elo.elo - latestWeek.elo.oldElo
         : false;
+
+      let wins = 0;
+      let losses = 0;
+      let ties = 0;
+
+      for (let i = 0; i < latestSeason.weeks.length; i += 1) {
+        const { game } = latestSeason.weeks[i];
+        if (game) {
+          const isHome = game.homeTeam.team.name === team.team.name;
+          const homeMargin = game.homeTeam.stats.score.final - game.awayTeam.stats.score.final;
+          if (homeMargin === 0) {
+            ties += 1;
+          } else if (isHome === (homeMargin > 0)) {
+            wins += 1;
+          } else {
+            losses += 1;
+          }
+        }
+      }
+
       return {
         name: team.team.name,
         abbreviation: team.team.abbreviation,
@@ -36,6 +56,11 @@ export const actions = {
         conf: currentConf,
         elo: latestWeek.elo.elo,
         color: team.team.color,
+        record: {
+          wins,
+          losses,
+          ties,
+        },
         eloChange,
         seasonNo,
         weekNo,
