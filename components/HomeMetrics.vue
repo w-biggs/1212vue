@@ -303,6 +303,14 @@ export default {
     color: $faded;
   }
 
+  .conf {
+    display: none;
+
+    @media screen and (min-width: $breakpoint-sm) {
+      display: table-cell;
+    }
+  }
+
   .sorter {
     display: inline-block;
     position: absolute;
