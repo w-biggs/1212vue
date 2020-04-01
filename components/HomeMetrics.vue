@@ -19,6 +19,13 @@
                 <span class="desc">▼</span>
               </div>
             </th>
+            <th title="Weighted Park-Newman" class="wpn no-upper" v-on:click="setSort(false, $event)">
+              <span>wP-N</span>
+              <div :class="['sorter', sorterClass('wpn')]">
+                <span class="asc">▲</span>
+                <span class="desc">▼</span>
+              </div>
+            </th>
             <th class="team" v-on:click="setSort(true, $event)">
               <span>TEAM</span>
               <div :class="['sorter', sorterClass('team')]">
@@ -44,6 +51,9 @@
               <span v-if="team.eloChange" :class="['elo-change-value', team.eloChange < 0 ? 'is-decrease' : 'is-increase']">
                 {{ team.eloChange > 0 ? '+' : '' }}{{ Math.round(team.eloChange) }}
               </span>
+            </td>
+            <td class="wpn" :title="team.wPN" :data-value="team.wPN">
+              <span>{{ team.wPN.toFixed(2) }}</span>
             </td>
             <td class="team" :data-value="team.name">
               <a href="#" v-on:click="openChart(team, $event)">
@@ -202,7 +212,7 @@ export default {
       transition: background-color 0.15s;
       background-clip: padding-box;
 
-      &:not(.elo-no-upper) {
+      &:not(.no-upper) {
         text-transform: uppercase;
       }
 
