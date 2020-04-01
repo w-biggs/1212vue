@@ -14,6 +14,11 @@ export default {
     Scoreboard,
     HomeMetrics,
   },
+  head () {
+    return {
+      title: this.$store.state.misc.siteName,
+    }
+  },
   data() {
     return {
       gameRefresh: null,

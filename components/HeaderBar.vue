@@ -1,7 +1,7 @@
 <template>
   <header class="header">
     <nuxt-link to="/" class="header-logo">
-      <img src="~/assets/images/logo.svg" alt="OneTwoOneTwo">
+      <img :src="require(`../assets/images/${siteLogo}`)" :alt="siteName">
     </nuxt-link>
     <ul class="nav" role="navigation">
       <li class="nav-item is-disabled">
@@ -24,5 +24,20 @@
     </ul>
   </header>
 </template>
+
+<script>
+export default {
+  data() {
+    return {
+      siteName: 'OneTwoOneTwo',
+      siteLogo: 'logo.svg',
+    }
+  },
+   serverPrefetch() {
+    this.siteName = this.$store.state.misc.siteName;
+    this.siteLogo = this.$store.state.misc.siteLogo;
+  },
+};
+</script>
 
 <style scoped src="~/assets/scss/components/header.scss" lang="scss" />

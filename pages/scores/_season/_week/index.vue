@@ -39,7 +39,7 @@ export default {
   },
   head () {
     return {
-      title: 'Scores - OneTwoOneTwo',
+      title: `Scores - ${this.$store.state.misc.siteName}`,
     }
   },
   validate({ params }) {
