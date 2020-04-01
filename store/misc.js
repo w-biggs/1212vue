@@ -2,10 +2,8 @@
 export const mutations = {
   set(state, isAF) {
     if (isAF) {
-      state.siteName = 'FourSixtyTwo';
       state.siteLogo = '462.svg';
     } else {
-      state.siteName = 'OneTwoOneTwo';
       state.siteLogo = 'logo.svg';
     }
   },
