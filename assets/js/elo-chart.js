@@ -137,51 +137,55 @@ const generatePlotLines = function generatePlotLines(teamSeries, ranges) {
   const plotLines = [];
   const rangeSeries = teamSeries.filter(singleSeries => singleSeries.type === 'arearange');
 
-  for (let i = 0; i < rangeSeries.length; i += 1) {
-    const season = rangeSeries[i];
-    const pointStart = calcPointStart(ranges, i);
+  for (let i = 0; i < ranges.length; i += 1) {
+    const season = rangeSeries.find(
+      seasonSeries => seasonSeries.seasonNo === ranges[i].seasonNo,
+    );
+    if (season) {
+      const pointStart = calcPointStart(ranges, i);
 
-    /* Season markers */
-    plotLines.push({
-      color: '#d1d1d1',
-      width: 1,
-      value: pointStart,
-      label: {
-        text: `Season ${season.seasonNo}`,
-        align: 'right',
-        verticalAlign: 'bottom',
-        textAlign: 'right',
-        style: {
-          color: 'rgba(0,0,0,0.5)',
-          fontWeight: 'bold',
-          fontSize: '1.25em',
+      /* Season markers */
+      plotLines.push({
+        color: '#d1d1d1',
+        width: 1,
+        value: pointStart,
+        label: {
+          text: `Season ${season.seasonNo}`,
+          align: 'right',
+          verticalAlign: 'bottom',
+          textAlign: 'right',
+          style: {
+            color: 'rgba(0,0,0,0.5)',
+            fontWeight: 'bold',
+            fontSize: '1.25em',
+          },
+          y: -20,
         },
-        y: -20,
-      },
-      zIndex: 3,
-    });
+        zIndex: 3,
+      });
 
-    /* Playoff markers */
-    let playoffStartWeek = 13 + pointStart;
-    if (season.seasonNo === 1) {
-      playoffStartWeek = 14 + pointStart;
+      /* Playoff markers */
+      let playoffStartWeek = 13 + pointStart;
+      if (season.seasonNo === 1) {
+        playoffStartWeek = 14 + pointStart;
+      }
+      plotLines.push({
+        color: '#f4f4f4',
+        width: 2,
+        value: playoffStartWeek + 0.5,
+        label: {
+          text: 'PLAYOFFS',
+          verticalAlign: 'middle',
+          textAlign: 'center',
+          style: {
+            color: 'rgba(0,0,0,0.5)',
+            fontWeight: 'bold',
+          },
+          y: 50,
+        },
+        zIndex: 5,
+      });
     }
-    plotLines.push({
-      color: '#f4f4f4',
-      width: 2,
-      value: playoffStartWeek + 0.5,
-      label: {
-        text: 'PLAYOFFS',
-        verticalAlign: 'middle',
-        textAlign: 'center',
-        style: {
-          color: 'rgba(0,0,0,0.5)',
-          fontWeight: 'bold',
-        },
-        y: 50,
-      },
-      zIndex: 5,
-    });
   }
 
   return plotLines;
