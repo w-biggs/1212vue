@@ -17,7 +17,7 @@
     display: block;
   }
 
-  img[src*="462"] {
+  img[data-url*="462"] {
     position: absolute;
     top: 0;
     left: 0;

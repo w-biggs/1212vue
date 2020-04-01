@@ -1,7 +1,7 @@
 <template>
   <header class="header">
     <nuxt-link to="/" class="header-logo">
-      <img :src="require(`../assets/images/${siteLogo}`)" :alt="siteName">
+      <img :src="require(`../assets/images/${siteLogo}`)" :alt="siteName" :data-url="siteLogo">
     </nuxt-link>
     <ul class="nav" role="navigation">
       <li class="nav-item is-disabled">
