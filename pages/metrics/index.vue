@@ -73,7 +73,11 @@
       <tbody ref="metricsTableBody">
         <tr v-for="(coach, index) in coachMetrics" :key="coach.username">
           <td class="ranking">{{ index + 1 }}</td>
-          <th class="username" :data-value="coach.username">{{ coach.username }}</th>
+          <th class="username" :data-value="coach.username">
+            <a href="#" v-on:click="openChart(coach, $event)">
+              {{ coach.username }}
+            </a>
+          </th>
           <td class="elo" :data-value="coach.elo" :title="coach.elo.toFixed(4)">{{ coach.elo.toFixed(2) }}</td>
           <td class="wins" :data-value="coach.record.wins">{{ coach.record.wins }}</td>
           <td class="losses" :data-value="coach.record.losses">{{ coach.record.losses }}</td>
@@ -84,11 +88,17 @@
         </tr>
       </tbody>
     </table>
+    <CoachEloChart v-if="chartOpen" v-on:closeChart="closeChart" :coach="chartCoach" ref="eloChart" />
   </div>
 </template>
 
 <script>
+import CoachEloChart from '~/components/CoachEloChart';
+
 export default {
+  components: {
+    CoachEloChart,
+  },
   data() {
     return {
       collapsed: true,
@@ -96,6 +106,8 @@ export default {
         by: 'elo-rating',
         asc: false,
       },
+      chartOpen: false,
+      chartCoach: null,
     };
   },
   head () {
@@ -167,6 +179,14 @@ export default {
       }
       return '';
     },
+    openChart(coach, event) {
+      event.preventDefault();
+      this.chartOpen = true;
+      this.chartCoach = coach;
+    },
+    closeChart() {
+      this.chartOpen = false;
+    },
   },
   computed: {
     coachMetrics() {
@@ -230,6 +250,16 @@ export default {
       tr:nth-of-type(n+11){
         display: none;
       }
+    }
+  }
+
+  .username > a {
+    color: inherit;
+    font-weight: 700;
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
     }
   }
 
