@@ -66,10 +66,6 @@ export const actions = {
               wins += 1;
             }
           } else {
-            if (!isSub && coach.coach.username === 'jokullmusic') {
-              console.log(game.homeTeam.team.name, game.awayTeam.team.name, game.gameId);
-            }
-
             subLosses += 1;
             if (!isSub) {
               losses += 1;

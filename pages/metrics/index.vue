@@ -4,6 +4,7 @@
     <table class="table">
       <thead>
         <tr>
+          <th>#</th>
           <th>Username</th>
           <th>Elo</th>
           <th>Record (primary coach)</th>
@@ -11,7 +12,8 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="coach in coachMetrics" :key="coach.username">
+        <tr v-for="(coach, index) in coachMetrics" :key="coach.username">
+          <td>{{ index + 1 }}</td>
           <th>{{ coach.username }}</th>
           <td>{{ coach.elo.toFixed(2) }}</td>
           <td>{{ `${coach.record.wins}-${coach.record.losses}${coach.record.ties ? '-' + coach.record.ties : ''}` }}</td>
