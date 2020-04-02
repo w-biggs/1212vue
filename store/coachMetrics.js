@@ -50,7 +50,7 @@ export const actions = {
             const coachPlays = game.awayTeam.coaches.find(
               teamCoach => teamCoach.coach.username === coach.coach.username,
             ).plays;
-            const maxPlays = Math.max(...game.homeTeam.coaches.map(teamCoach => teamCoach.plays));
+            const maxPlays = Math.max(...game.awayTeam.coaches.map(teamCoach => teamCoach.plays));
             isSub = coachPlays !== maxPlays;
           }
 
