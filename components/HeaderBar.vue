@@ -18,8 +18,10 @@
       <li class="nav-item is-disabled">
         <span>Stats</span>
       </li>
-      <li class="nav-item is-disabled">
-        <span>Metrics</span>
+      <li v-bind:class="['nav-item', $nuxt.$route.name === 'metrics' ? 'is-active' : '']">
+        <nuxt-link to="/metrics">
+          Metrics
+        </nuxt-link>
       </li>
     </ul>
   </header>
