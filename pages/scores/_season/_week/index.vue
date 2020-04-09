@@ -116,7 +116,7 @@ export default {
     if (process.client) {
       const apiLink = this.isDev ? 'http://localhost:12121' : 'https://api.1212.one';
       setInterval(function() {
-        return this.$axios.$get(`${apiLink}/games/${this.seasonNo}/${this.weekNo}/`)
+        return this.$axios.$get(`${apiLink}/games/${this.seasonNo}/${this.weekNo}/${conf ? conf : ''}`)
           .then((response) => {
             if (response.games) {
               console.log('fetched games');
@@ -136,6 +136,9 @@ export default {
         path: `/scores/${seasonVal}/${weekVal}/${confVal}`,
       });
     },
+    update() {
+
+    }
   },
   computed: {
     seasons() {
