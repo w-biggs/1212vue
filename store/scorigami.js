@@ -44,6 +44,12 @@ export const actions = {
       }
     }
 
+    for (let i = 0; i < grid.length; i += 1) {
+      if (!grid[i]) {
+        grid[i] = [];
+      }
+    }
+
     await commit('set', {
       maxWin,
       maxLoss,

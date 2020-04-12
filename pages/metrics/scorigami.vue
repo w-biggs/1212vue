@@ -12,8 +12,8 @@
             <th>{{ yIndex }}</th>
             <td scope="col" v-for="(n, xIndex) in (scorigami.maxWin + 1)" :key="`${yIndex}-${xIndex}`"
               :class="isBlack(xIndex, yIndex) ? 'black' : ''"
-              :style="isBlack(xIndex, yIndex) ? '' : `background-color: hsl(${calcGradient(getValue(xIndex, yIndex)).join(',')})`">
-              {{ getValue(xIndex, yIndex) }}
+              :style="isBlack(xIndex, yIndex) ? '' : `background-color: hsl(${calcGradient(scorigami.grid[xIndex][yIndex]).join(',')})`">
+              {{ scorigami.grid[xIndex][yIndex] }}
             </td>
           </tr>
         </tbody>
@@ -33,12 +33,6 @@ export default {
     await store.dispatch('scorigami/get');
   },
   methods: {
-    getValue(xIndex, yIndex) {
-      if (this.scorigami.grid[xIndex]) {
-        return this.scorigami.grid[xIndex][yIndex];
-      }
-      return null;
-    },
     isBlack(xIndex, yIndex) {
       return (yIndex > xIndex) || (yIndex === 1) || (xIndex === 1);
     },
@@ -50,10 +44,9 @@ export default {
       return [hue, '50%', '50%'];
     },
   },
-  computed: {
-    scorigami() {
-      return this.$store.state.scorigami.scorigami;
-    },
+  created() {
+    // Make it non-reactive since it won't update while we're looking at it
+    this.scorigami = {...this.$store.state.scorigami.scorigami};
   },
 }
 </script>
