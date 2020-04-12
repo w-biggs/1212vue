@@ -12,7 +12,7 @@
             <th>{{ yIndex }}</th>
             <td scope="col" v-for="(n, xIndex) in (scorigami.maxWin + 1)" :key="`${yIndex}-${xIndex}`"
               :class="isBlack(xIndex, yIndex) ? 'black' : ''"
-              :style="isBlack(xIndex, yIndex) ? '' : `background-color: hsl(${calcGradient(scorigami.grid[xIndex][yIndex]).join(',')})`">
+              :style="isBlack(xIndex, yIndex) || !scorigami.grid[xIndex][yIndex] ? '' : `background-color: hsl(${calcGradient(scorigami.grid[xIndex][yIndex]).join(',')})`">
               {{ scorigami.grid[xIndex][yIndex] }}
             </td>
           </tr>
@@ -37,9 +37,6 @@ export default {
       return (yIndex > xIndex) || (yIndex === 1) || (xIndex === 1);
     },
     calcGradient(value) {
-      if (!value) {
-        return [0, '0%', '100%'];
-      }
       const hue = 240 - ((value / this.scorigami.maxVal) * 240);
       return [hue, '50%', '50%'];
     },
@@ -71,10 +68,26 @@ export default {
     border-collapse: collapse;
     position: relative;
 
+    tr:not(:first-child):hover > td:not(.black),
+    tr:not(:first-child):hover > th:not(.black) {
+      background-color: #e7e7e7;
+    }
+
     td, th {
       width: 2em;
       text-align: center;
-      background-color: #fff;
+      position: relative;
+    }
+
+    td:hover::after {
+      content: "";
+      position: absolute;
+      background-color: #e7e7e7;
+      left: 0;
+      top: -5000px;
+      height: 10000px;
+      width: 100%;
+      z-index: -1;
     }
 
     .black {
@@ -84,11 +97,15 @@ export default {
     tr:first-child th {
       position: sticky;
       top: 0;
+      background-color: #fff;
+      z-index: 1;
     }
 
     th:first-child {
       position: sticky;
       left: 0;
+      background-color: #fff;
+      z-index: 1;
     }
   }
 </style>
