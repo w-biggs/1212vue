@@ -67,6 +67,7 @@ export default {
     width: 100%;
     border-collapse: collapse;
     position: relative;
+    overflow: hidden;
 
     tr:not(:first-child):hover > td:not(.black),
     tr:not(:first-child):hover > th:not(.black) {
