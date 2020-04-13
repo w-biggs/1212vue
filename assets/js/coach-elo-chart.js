@@ -181,7 +181,6 @@ const generateGameString = function generateGameString(coach, point, ranges) {
  */
 const generateChartOptions = function generateChartOptions(coach, ranges) {
   const coachSeries = generateCoachSeries(coach, ranges);
-  console.log(coachSeries);
   const plotLines = generatePlotLines(ranges);
   return {
     title: {

@@ -50,7 +50,6 @@ export default {
   },
   watch: {
     $route() {
-      console.log(this.navIsOpen);
       if (this.navIsOpen) {
         this.navIsOpen = !this.navIsOpen;
       }
