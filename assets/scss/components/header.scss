@@ -82,14 +82,11 @@
     }
   }
 
-  .container.is-open-nav {
-    max-height: 100vh;
-    overflow: hidden;
+  header ~ *{
+    display: none;
+  }
 
-    header ~ *{
-      display: none;
-    }
-
+  header.is-open-nav {
     .nav {
       position: fixed;
       display: block;

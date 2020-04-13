@@ -1,5 +1,5 @@
 <template>
-  <header class="header">
+  <header :class="['header', navIsOpen ? 'is-open-nav' : '']">
     <nuxt-link to="/" class="header-logo">
       <img :src="require(`../assets/images/${siteLogo}`)" :alt="siteName" :data-url="siteLogo">
     </nuxt-link>
@@ -24,6 +24,9 @@
         </nuxt-link>
       </li>
     </ul>
+    <button class="nav-expand" :aria-expanded="navIsOpen" @click="toggleNav">
+      Menu
+    </button>
   </header>
 </template>
 
@@ -33,11 +36,25 @@ export default {
     return {
       siteName: 'OneTwoOneTwo',
       siteLogo: 'logo.svg',
+      navIsOpen: false,
     }
   },
-   serverPrefetch() {
+  serverPrefetch() {
     this.siteName = this.$store.state.misc.siteName;
     this.siteLogo = this.$store.state.misc.siteLogo;
+  },
+  methods: {
+    toggleNav() {
+      this.navIsOpen = !this.navIsOpen;
+    },
+  },
+  watch: {
+    $route() {
+      console.log(this.navIsOpen);
+      if (this.navIsOpen) {
+        this.navIsOpen = !this.navIsOpen;
+      }
+    }
   },
 };
 </script>
