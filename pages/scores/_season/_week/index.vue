@@ -79,6 +79,7 @@ export default {
       seasonNo: 1,
       weekNo: 1,
       conf: '',
+      gameRefresh: null,
     };
   },
   asyncData({ $axios, isDev, params, redirect, store }) {
@@ -115,11 +116,11 @@ export default {
   mounted() {
     if (process.client) {
       const apiLink = this.isDev ? 'http://localhost:12121' : 'https://api.1212.one';
-      setInterval(function() {
-        return this.$axios.$get(`${apiLink}/games/${this.seasonNo}/${this.weekNo}/${conf ? conf : ''}`)
+      this.gameRefresh = setInterval(function() {
+        return this.$axios.$get(`${apiLink}/games/${this.seasonNo}/${this.weekNo}/${this.conf ? this.conf : ''}`)
           .then((response) => {
             if (response.games) {
-              console.log('fetched games');
+              console.log('fetched scores games');
               this.games = response.games;
             }
           })
@@ -150,6 +151,11 @@ export default {
     confs() {
       return this.$store.state.confs.confs;
     },
+  },
+  beforeRouteLeave(to, from, next) {
+    console.log('clearing');
+    clearInterval(this.gameRefresh);
+    next();
   },
 }
 </script>
