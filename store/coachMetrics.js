@@ -17,7 +17,16 @@ export const actions = {
 
     const filteredMetrics = rawMetrics.filter(coach => coach.weeks.length > 0);
 
-    const metrics = filteredMetrics.map((coach) => {
+    const sortedMetrics = filteredMetrics.map((coach) => {
+      const latestWeek = coach.weeks[coach.weeks.length - 1];
+      const latestGame = latestWeek.games[latestWeek.games.length - 1];
+      return {
+        ...coach,
+        elo: latestGame.elo.elo,
+      };
+    }).sort((b, a) => a.elo - b.elo).slice(0, 10);
+
+    const metrics = sortedMetrics.map((coach) => {
       const latestWeek = coach.weeks[coach.weeks.length - 1];
       const latestGame = latestWeek.games[latestWeek.games.length - 1];
       const { weekNo } = latestWeek.week;
@@ -93,10 +102,8 @@ export const actions = {
       };
     });
 
-    const sortedMetrics = metrics.sort((b, a) => a.elo - b.elo);
-
     console.log('got coach metrics');
-    await commit('setMetrics', sortedMetrics.filter(coach => coach.username !== '[deleted]'));
+    await commit('setMetrics', metrics.filter(coach => coach.username !== '[deleted]'));
     await commit('setRanges', response.ranges);
   },
 };
