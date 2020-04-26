@@ -9,8 +9,8 @@
             <th scope="col" v-for="(n, xIndex) in (scorigami.maxWin + 1)" :key="`0-${xIndex}`">{{ xIndex }}</th>
           </tr>
           <tr v-for="(n, yIndex) in (scorigami.maxLoss + 1)" :key="`${yIndex}-0`">
-            <th>{{ yIndex }}</th>
-            <td scope="col" v-for="(n, xIndex) in (scorigami.maxWin + 1)" :key="`${yIndex}-${xIndex}`"
+            <th scope="col">{{ yIndex }}</th>
+            <td v-for="(n, xIndex) in (scorigami.maxWin + 1)" :key="`${yIndex}-${xIndex}`"
               :class="isBlack(xIndex, yIndex) ? 'black' : ''"
               :style="isBlack(xIndex, yIndex) || !scorigami.grid[xIndex][yIndex] ? '' : `background-color: hsl(${calcGradient(scorigami.grid[xIndex][yIndex]).join(',')})`">
               {{ scorigami.grid[xIndex][yIndex] }}
