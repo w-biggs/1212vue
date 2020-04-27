@@ -88,3 +88,6 @@ sw.*
 
 # Vim swap files
 *.swp
+
+# Adds path hinting in WebStorm - not really webpack config
+webpack.config.js
