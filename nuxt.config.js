@@ -91,6 +91,10 @@ export default {
         path: '/scores/:season/:week/:conf?',
         component: resolve(__dirname, 'pages/scores/_season/_week/index.vue'),
         name: 'scores-season-week-conf',
+      }, {
+        path: '/stats/:season?',
+        component: resolve(__dirname, 'pages/stats/index.vue'),
+        name: 'stats-season',
       });
     },
   },
