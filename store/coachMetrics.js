@@ -17,14 +17,18 @@ export const actions = {
 
     const filteredMetrics = rawMetrics.filter(coach => coach.weeks.length > 0);
 
-    const sortedMetrics = filteredMetrics.map((coach) => {
+    let sortedMetrics = filteredMetrics.map((coach) => {
       const latestWeek = coach.weeks[coach.weeks.length - 1];
       const latestGame = latestWeek.games[latestWeek.games.length - 1];
       return {
         ...coach,
         elo: latestGame.elo.elo,
       };
-    }).sort((b, a) => a.elo - b.elo).slice(0, 10);
+    }).sort((b, a) => a.elo - b.elo);
+
+    if (useRemote) {
+      sortedMetrics = sortedMetrics.slice(0, 10);
+    }
 
     const metrics = sortedMetrics.map((coach) => {
       const latestWeek = coach.weeks[coach.weeks.length - 1];
