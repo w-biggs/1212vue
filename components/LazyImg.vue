@@ -1,5 +1,5 @@
 <template>
-  <div ref="lazyImg" :class="['lazy-img', divClass]" :data-bg="img" />
+  <div ref="lazyImg" :class="['lazy-img', divClass]" />
 </template>
 
 
