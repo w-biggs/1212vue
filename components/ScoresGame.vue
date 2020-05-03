@@ -5,7 +5,7 @@
         <td class="status">
           {{ statusString }}
         </td>
-        <th class="quarter" v-for="index in numQuarters(game)" :key="index">
+        <th v-for="index in numQuarters(game)" :key="index" class="quarter">
           {{ index }}
         </th>
         <th class="score">
@@ -14,13 +14,15 @@
       </tr>
       <tr v-for="(team, index) in [game.homeTeam, game.awayTeam]" :key="team.team.name">
         <td class="team">
-          <LazyImg divClass="team-logo" :data-bg="require(`~/assets/images/logos/${team.team.abbreviation}.svg`)" />
-          <span :class="['team-name', game.live && ((index === 0) !== game.status.homeOffense) ? 'is-defense' : '']">
-            {{ team.team.shortName ? team.team.shortName : team.team.name }}
+          <LazyImg div-class="team-logo"
+                   :data-bg="require(`~/assets/images/logos/${team.team.abbreviation}.svg`)" />
+          <span :class="['team-name', game.live
+            && ((index === 0) !== game.status.homeOffense)? 'is-defense' : '']">
+            {{ team.team.shortName || team.team.name }}
           </span>
         </td>
-        <td class="quarter" v-for="index in numQuarters(game)" :key="index">
-          {{ team.stats.score.quarters[index - 1] ? team.stats.score.quarters[index - 1] : 0 }}
+        <td v-for="scoreIndex in numQuarters(game)" :key="scoreIndex" class="quarter">
+          {{ team.stats.score.quarters[scoreIndex - 1] || 0 }}
         </td>
         <td class="score">
           {{ team.stats.score.final }}
@@ -29,40 +31,24 @@
     </tbody>
     <caption>
       <a :href="`https://reddit-stream.com/comments/${game.gameId}`" class="link" target="_blank" rel="noopener noreferrer">
-        {{streamText}}
+        {{ streamText }}
       </a>
     </caption>
   </table>
 </template>
 
 <script>
-import LazyImg from '~/components/LazyImg';
+import LazyImg from '~/components/LazyImg.vue';
 
 export default {
   components: {
-    LazyImg
+    LazyImg,
   },
-  props: ['game'],
-  methods: {
-    ordinalize(num) {
-      const tens = num % 10;
-      const huns = num % 100;
-      if (tens === 1 && huns !== 11) {
-        return `${num}st`;
-      }
-      if (tens === 2 && huns !== 12) {
-        return `${num}nd`;
-      }
-      if (tens === 3 && huns !== 13) {
-        return `${num}rd`;
-      }
-      return `${num}th`;
+  props: {
+    game: {
+      type: Object,
+      required: true,
     },
-    numQuarters(game) {
-      const homeQs = this.game.homeTeam.stats.score.quarters;
-      const awayQs = this.game.awayTeam.stats.score.quarters;
-      return Math.max(homeQs.length, awayQs.length, 4);
-    }
   },
   computed: {
     statusString() {
@@ -80,9 +66,9 @@ export default {
           yardLineString = `${whoseYardLine} ${this.game.status.yardLine}`;
         }
 
-        let mins = Math.floor(this.game.status.clock / 60);
-        let secs = this.game.status.clock % 60;
-        let clock = `${mins}:${String(secs).padStart(2,'0')}`;
+        const mins = Math.floor(this.game.status.clock / 60);
+        const secs = this.game.status.clock % 60;
+        const clock = `${mins}:${String(secs).padStart(2, '0')}`;
 
         const down = this.ordinalize(this.game.status.down);
 
@@ -108,7 +94,28 @@ export default {
       return `Finished ${timeString} ago >`;
     },
   },
-}
+  methods: {
+    ordinalize(num) {
+      const tens = num % 10;
+      const huns = num % 100;
+      if (tens === 1 && huns !== 11) {
+        return `${num}st`;
+      }
+      if (tens === 2 && huns !== 12) {
+        return `${num}nd`;
+      }
+      if (tens === 3 && huns !== 13) {
+        return `${num}rd`;
+      }
+      return `${num}th`;
+    },
+    numQuarters() {
+      const homeQs = this.game.homeTeam.stats.score.quarters;
+      const awayQs = this.game.awayTeam.stats.score.quarters;
+      return Math.max(homeQs.length, awayQs.length, 4);
+    },
+  },
+};
 </script>
 
 <style scoped lang="scss">

@@ -14,12 +14,12 @@
 
 <script>
 export default {
-  head () {
+  head() {
     return {
       title: `Metrics - ${this.$store.state.misc.siteName}`,
-    }
+    };
   },
-}
+};
 </script>
 
 <style lang="scss" scoped>

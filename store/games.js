@@ -17,8 +17,8 @@ export const actions = {
 };
 
 export const getters = {
-  games: state => state.games,
-  current: state => state.current,
+  games: (state) => state.games,
+  current: (state) => state.current,
 };
 
 export const state = () => ({

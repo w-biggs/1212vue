@@ -1,14 +1,14 @@
 <template>
   <div class="scoreboard-container">
-    <div v-bind:class="['scoreboard', overflowing ? 'is-overflowing' : '']">
+    <div :class="['scoreboard', overflowing ? 'is-overflowing' : '']">
       <h2 class="section-header">Scoreboard</h2>
-      <div class="games" v-bind:style="{ maxHeight: collapsed ? gamesMaxHeight : 'none' }">
-        <template v-for="game in games" >
-          <ScoreboardGame v-bind:game="game" :key="game.gameId" />
+      <div class="games" :style="{ maxHeight: collapsed ? gamesMaxHeight : 'none' }">
+        <template v-for="game in games">
+          <ScoreboardGame :key="game.gameId" :game="game" />
         </template>
       </div>
       <div class="scoreboard-expand">
-        <button v-bind:aria-expanded="!collapsed" v-on:click="handleScoreboardButton">
+        <button :aria-expanded="!collapsed" @click="handleScoreboardButton">
           {{ collapsed ? 'Show more' : 'Show less' }}
         </button>
       </div>
@@ -17,13 +17,13 @@
 </template>
 
 <script>
-import ScoreboardGame from '../components/ScoreboardGame';
+import ScoreboardGame from './ScoreboardGame.vue';
 import { getMaxHeight, checkShowButton } from '../assets/js/scoreboard';
 import { debounce } from '../assets/js/vendor/underscore.min';
 
 export default {
   components: {
-    ScoreboardGame
+    ScoreboardGame,
   },
   data() {
     return {
@@ -32,8 +32,28 @@ export default {
       collapsed: true,
     };
   },
+  computed: {
+    games() {
+      return this.$store.state.games.games;
+    },
+  },
+  watch: {
+    games() {
+      this.$nextTick(() => {
+        this.checkOverflow();
+      });
+    },
+  },
+  mounted() {
+    this.checkOverflow();
+    window.addEventListener('resize', () => {
+      debounce(() => {
+        this.checkOverflow();
+      }, 300);
+    });
+  },
   methods: {
-    handleScoreboardButton: function(event) {
+    handleScoreboardButton: () => {
       this.collapsed = !this.collapsed;
     },
     checkOverflow() {
@@ -44,29 +64,9 @@ export default {
 
       // Check if button should be shown
       this.overflowing = checkShowButton(maxHeight);
-    }
+    },
   },
-  mounted() {
-    this.checkOverflow();
-    window.addEventListener('resize', () => {
-      debounce(() => {
-        this.checkOverflow();
-      }, 300);
-    });
-  },
-  computed: {
-    games() {
-      return this.$store.state.games.games;
-    }
-  },
-  watch: {
-    games() {
-      this.$nextTick(() => {
-        this.checkOverflow();
-      });
-    }
-  }
-}
+};
 </script>
 
 <style scoped src="~/assets/scss/components/scoreboard.scss" lang="scss" />

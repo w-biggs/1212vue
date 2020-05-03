@@ -60,7 +60,7 @@ export const actions = {
 };
 
 export const getters = {
-  scorigami: state => state.scorigami,
+  scorigami: (state) => state.scorigami,
 };
 
 export const state = () => ({

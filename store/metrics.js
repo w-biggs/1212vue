@@ -72,13 +72,13 @@ export const actions = {
     const sortedMetrics = metrics.sort((b, a) => a.elo - b.elo);
 
     console.log('got metrics');
-    await commit('setMetrics', sortedMetrics.filter(team => team.conf !== null));
+    await commit('setMetrics', sortedMetrics.filter((team) => team.conf !== null));
     await commit('setRanges', response.ranges);
   },
 };
 
 export const getters = {
-  metrics: state => state.metrics,
+  metrics: (state) => state.metrics,
 };
 
 export const state = () => ({

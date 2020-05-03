@@ -6,37 +6,37 @@
 </template>
 
 <script>
-import Scoreboard from '../components/Scoreboard';
-import HomeMetrics from '../components/HomeMetrics';
+import Scoreboard from '../components/Scoreboard.vue';
+import HomeMetrics from '../components/HomeMetrics.vue';
 
 export default {
   components: {
     Scoreboard,
     HomeMetrics,
   },
-  head () {
-    return {
-      title: this.$store.state.misc.siteName,
-    }
+  async fetch({ store }) {
+    await store.dispatch('games/get');
   },
   data() {
     return {
       gameRefresh: null,
     };
   },
-  async fetch({ store }) {
-    await store.dispatch('games/get');
-  },
   mounted() {
     this.gameRefresh = setInterval(() => {
       this.$store.dispatch('games/get');
     }, 60000);
   },
+  head() {
+    return {
+      title: this.$store.state.misc.siteName,
+    };
+  },
   beforeRouteLeave(to, from, next) {
     clearInterval(this.gameRefresh);
     next();
-  }
-}
+  },
+};
 </script>
 
 <style lang="scss" scoped>

@@ -18,8 +18,8 @@ export const actions = {
 };
 
 export const getters = {
-  siteName: state => state.siteName,
-  siteLogo: state => state.siteLogo,
+  siteName: (state) => state.siteName,
+  siteLogo: (state) => state.siteLogo,
 };
 
 export const state = () => ({

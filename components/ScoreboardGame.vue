@@ -2,48 +2,45 @@
   <div class="game">
     <div class="teams">
       <div class="team">
-        <div v-bind:class="['team-name', game.live && !game.status.homeOffense ? 'is-defense' : '']">
-          {{game.homeTeam.team.name}}
+        <div :class="['team-name', game.live && !game.status.homeOffense ? 'is-defense' : '']">
+          {{ game.homeTeam.team.name }}
         </div>
-        <div v-bind:class="['team-score', game.live ? '' : 'is-final', game.homeTeam.stats.score.final > game.awayTeam.stats.score.final ? 'is-win' : 'is-loss']">
-          {{game.homeTeam.stats.score.final}}
+        <div :class="[
+          'team-score',
+          game.live ? '' : 'is-final',
+          game.homeTeam.stats.score.final > game.awayTeam.stats.score.final ? 'is-win' : 'is-loss'
+        ]">
+          {{ game.homeTeam.stats.score.final }}
         </div>
       </div>
       <div class="team">
-        <div v-bind:class="['team-name', game.live && game.status.homeOffense ? 'is-defense' : '']">
-          {{game.awayTeam.team.name}}
+        <div :class="['team-name', game.live && game.status.homeOffense ? 'is-defense' : '']">
+          {{ game.awayTeam.team.name }}
         </div>
-        <div v-bind:class="['team-score', game.live ? '' : 'is-final', game.awayTeam.stats.score.final > game.homeTeam.stats.score.final ? 'is-win' : 'is-loss']">
-          {{game.awayTeam.stats.score.final}}
+        <div :class="[
+          'team-score',
+          game.live ? '' : 'is-final',
+          game.awayTeam.stats.score.final > game.homeTeam.stats.score.final ? 'is-win' : 'is-loss'
+        ]">
+          {{ game.awayTeam.stats.score.final }}
         </div>
       </div>
     </div>
     <div class="status">
-      {{statusString}}
+      {{ statusString }}
     </div>
-    <a v-bind:href="`https://reddit-stream.com/comments/${game.gameId}`" class="stream-link" target="_blank" rel="noopener noreferrer">
-      {{streamText}}
+    <a :href="`https://reddit-stream.com/comments/${game.gameId}`" class="stream-link" target="_blank" rel="noopener noreferrer">
+      {{ streamText }}
     </a>
   </div>
 </template>
 
 <script>
 export default {
-  props: ['game'],
-  methods: {
-    ordinalize(num) {
-      const tens = num % 10;
-      const huns = num % 100;
-      if (tens === 1 && huns !== 11) {
-        return `${num}st`;
-      }
-      if (tens === 2 && huns !== 12) {
-        return `${num}nd`;
-      }
-      if (tens === 3 && huns !== 13) {
-        return `${num}rd`;
-      }
-      return `${num}th`;
+  props: {
+    game: {
+      type: Object,
+      required: true,
     },
   },
   computed: {
@@ -62,9 +59,9 @@ export default {
           yardLineString = `${whoseYardLine} ${this.game.status.yardLine}`;
         }
 
-        let mins = Math.floor(this.game.status.clock / 60);
-        let secs = this.game.status.clock % 60;
-        let clock = `${mins}:${String(secs).padStart(2,'0')}`;
+        const mins = Math.floor(this.game.status.clock / 60);
+        const secs = this.game.status.clock % 60;
+        const clock = `${mins}:${String(secs).padStart(2, '0')}`;
 
         const down = this.ordinalize(this.game.status.down);
 
@@ -90,7 +87,23 @@ export default {
       return `Finished ${timeString} ago >`;
     },
   },
-}
+  methods: {
+    ordinalize(num) {
+      const tens = num % 10;
+      const huns = num % 100;
+      if (tens === 1 && huns !== 11) {
+        return `${num}st`;
+      }
+      if (tens === 2 && huns !== 12) {
+        return `${num}nd`;
+      }
+      if (tens === 3 && huns !== 13) {
+        return `${num}rd`;
+      }
+      return `${num}th`;
+    },
+  },
+};
 </script>
 
 <style scoped lang="scss">

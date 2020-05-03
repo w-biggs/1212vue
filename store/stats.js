@@ -15,7 +15,7 @@ export const actions = {
 };
 
 export const getters = {
-  stats: state => state.stats,
+  stats: (state) => state.stats,
 };
 
 export const state = () => ({

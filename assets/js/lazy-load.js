@@ -14,4 +14,4 @@ const imageObserver = new IntersectionObserver((entries) => {
   }
 });
 
-Vue.prototype.$lazyLoad = imageElement => imageObserver.observe(imageElement);
+Vue.prototype.$lazyLoad = (imageElement) => imageObserver.observe(imageElement);

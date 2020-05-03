@@ -5,35 +5,35 @@
       <table :class="['table', collapsed ? 'is-collapsed' : '']">
         <thead>
           <tr>
-            <th class="elo-rating" v-on:click="setSort(false, $event)">
+            <th class="elo-rating" @click="setSort(false, $event)">
               <span>Elo</span>
               <div :class="['sorter', sorterClass('elo-rating')]">
                 <span class="asc">▲</span>
                 <span class="desc">▼</span>
               </div>
             </th>
-            <th class="elo-change" v-on:click="setSort(false, $event)">
+            <th class="elo-change" @click="setSort(false, $event)">
               <span>±</span>
               <div :class="['sorter', sorterClass('elo-change')]">
                 <span class="asc">▲</span>
                 <span class="desc">▼</span>
               </div>
             </th>
-            <th title="Weighted Park-Newman" class="wpn no-upper" v-on:click="setSort(false, $event)">
+            <th title="Weighted Park-Newman" class="wpn no-upper" @click="setSort(false, $event)">
               <span>wP-N</span>
               <div :class="['sorter', sorterClass('wpn')]">
                 <span class="asc">▲</span>
                 <span class="desc">▼</span>
               </div>
             </th>
-            <th class="team" v-on:click="setSort(true, $event)">
+            <th class="team" @click="setSort(true, $event)">
               <span>TEAM</span>
               <div :class="['sorter', sorterClass('team')]">
                 <span class="asc">▲</span>
                 <span class="desc">▼</span>
               </div>
             </th>
-            <th class="conf" v-on:click="setSort(true, $event)">
+            <th class="conf" @click="setSort(true, $event)">
               <span>Conference<span class="elo-div"> / Division</span></span>
               <div :class="['sorter', sorterClass('conf')]">
                 <span class="asc">▲</span>
@@ -47,8 +47,12 @@
             <td class="elo-rating" :title="team.elo.toFixed(4)" :data-value="team.elo">
               <span>{{ Math.round(team.elo) }}</span>
             </td>
-            <td class="elo-change" :title="team.eloChange && team.eloChange.toFixed(4)" :data-value="team.eloChange || '0'">
-              <span v-if="team.eloChange" :class="['elo-change-value', team.eloChange < 0 ? 'is-decrease' : 'is-increase']">
+            <td class="elo-change" :title="team.eloChange && team.eloChange.toFixed(4)"
+                :data-value="team.eloChange || '0'">
+              <span v-if="team.eloChange" :class="[
+                'elo-change-value',
+                team.eloChange < 0 ? 'is-decrease' : 'is-increase'
+              ]">
                 {{ team.eloChange > 0 ? '+' : '' }}{{ Math.round(team.eloChange) }}
               </span>
             </td>
@@ -56,17 +60,22 @@
               <span>{{ team.wPN.toFixed(2) }}</span>
             </td>
             <td class="team" :data-value="team.name">
-              <a href="#" v-on:click="openChart(team, $event)">
-                <LazyImg divClass="team-logo" :data-bg="require(`~/assets/images/logos/${team.abbreviation}.svg`)" aria-hidden="true" />
+              <a href="#" @click="openChart(team, $event)">
+                <LazyImg div-class="team-logo"
+                         :data-bg="require(`~/assets/images/logos/${team.abbreviation}.svg`)"
+                         aria-hidden="true" />
                 <span>{{ team.name }}</span>
               </a>
               <span class="record">
-                ({{`${team.record.wins}-${team.record.losses}${team.record.ties ? '-' + team.record.ties : ''}`}})
+                ({{ `${team.record.wins}-${team.record.losses}${
+                  team.record.ties ? '-' + team.record.ties : ''
+                }` }})
               </span>
             </td>
-            <td class="conf" :title="`${team.conf} - ${team.div}`" :data-value="`${team.conf} - ${team.div}`">
+            <td class="conf" :title="`${team.conf} - ${team.div}`"
+                :data-value="`${team.conf} - ${team.div}`">
               {{ team.conf }}
-              <span class="div" v-if="team.div !== 'N/A'">
+              <span v-if="team.div !== 'N/A'" class="div">
                 - {{ team.div }}
               </span>
             </td>
@@ -74,19 +83,19 @@
         </tbody>
       </table>
       <div class="expand">
-        <button :aria-expanded="!collapsed" v-on:click="handleMetricsButton">
+        <button :aria-expanded="!collapsed" @click="handleMetricsButton">
           {{ collapsed ? 'Show more' : 'Show less' }}
         </button>
       </div>
     </template>
     <span v-else>Loading...</span>
-    <EloChart v-if="chartOpen" v-on:closeChart="closeChart" :team="chartTeam" ref="eloChart" />
+    <EloChart v-if="chartOpen" ref="eloChart" :team="chartTeam" @closeChart="closeChart" />
   </div>
 </template>
 
 <script>
-import LazyImg from '~/components/LazyImg';
-import EloChart from '~/components/EloChart';
+import LazyImg from '~/components/LazyImg.vue';
+import EloChart from '~/components/EloChart.vue';
 
 export default {
   components: {
@@ -104,8 +113,16 @@ export default {
       chartTeam: null,
     };
   },
+  computed: {
+    current() {
+      return this.$store.state.games.current;
+    },
+    metrics() {
+      return this.$store.state.metrics.metrics;
+    },
+  },
   methods: {
-    handleMetricsButton(event) {
+    handleMetricsButton() {
       this.collapsed = !this.collapsed;
     },
     emptyNode(node) {
@@ -173,17 +190,9 @@ export default {
     },
     closeChart() {
       this.chartOpen = false;
-    }
-  },
-  computed: {
-    current() {
-      return this.$store.state.games.current;
-    },
-    metrics() {
-      return this.$store.state.metrics.metrics;
     },
   },
-}
+};
 </script>
 
 <style scoped lang="scss">

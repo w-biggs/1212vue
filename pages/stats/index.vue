@@ -6,31 +6,33 @@
 </template>
 
 <script>
-  import StatsTable from '~/components/StatsTable';
+import StatsTable from '~/components/StatsTable.vue';
 
-  export default {
-    components: {
-      StatsTable,
-    },
-    data() {
-      return {
-        stats: [],
-      };
-    },
-    head() {
-      return {
-        title: `Stats - ${this.$store.state.misc.siteName}`,
-      }
-    },
-    async asyncData({ $axios, store, params, isDev }) {
-      const { season } = params;
-      const apiLink = isDev ? 'http://localhost:12121' : 'https://api.1212.one';
-      const stats = await $axios.$get(`${apiLink}/stats/${season ? season : store.state.games.current.season}`);
-      return {
-        stats,
-      };
-    },
-  }
+export default {
+  components: {
+    StatsTable,
+  },
+  async asyncData({
+    $axios, store, params, isDev,
+  }) {
+    const { season } = params;
+    const apiLink = isDev ? 'http://localhost:12121' : 'https://api.1212.one';
+    const stats = await $axios.$get(`${apiLink}/stats/${season || store.state.games.current.season}`);
+    return {
+      stats,
+    };
+  },
+  data() {
+    return {
+      stats: [],
+    };
+  },
+  head() {
+    return {
+      title: `Stats - ${this.$store.state.misc.siteName}`,
+    };
+  },
+};
 </script>
 
 <style lang="scss" scoped>

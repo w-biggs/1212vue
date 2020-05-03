@@ -1,9 +1,10 @@
 <template>
   <div>
-    <div class="chartbox-bg" v-on:click="closeChart"></div>
-    <div class="chartbox" role="dialog" aria-modal="true" tabindex="-1" :aria-label="`${coach.username} Elo History`">
-      <highcharts :options="chartOptions" class="chart" id="chart"></highcharts>
-      <a href="#" class="chartbox-close" v-on:click="closeChart">×</a>
+    <div class="chartbox-bg" @click="closeChart" />
+    <div class="chartbox" role="dialog" aria-modal="true" tabindex="-1"
+         :aria-label="`${coach.username} Elo History`">
+      <highcharts id="chart" :options="chartOptions" class="chart" />
+      <a href="#" class="chartbox-close" @click="closeChart">×</a>
     </div>
   </div>
 </template>
@@ -12,18 +13,23 @@
 import generateChartOptions from '~/assets/js/coach-elo-chart';
 
 export default {
-  props: ['coach'],
+  props: {
+    coach: {
+      type: Object,
+      required: true,
+    },
+  },
+  computed: {
+    chartOptions() {
+      return generateChartOptions(this.coach, this.$store.state.coachMetrics.ranges);
+    },
+  },
   methods: {
     closeChart(event) {
       event.preventDefault();
       this.$emit('closeChart');
     },
   },
-  computed: {
-    chartOptions() {
-      return generateChartOptions(this.coach, this.$store.state.coachMetrics.ranges);
-    }
-  }
 };
 </script>
 

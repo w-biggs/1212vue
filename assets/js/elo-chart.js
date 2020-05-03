@@ -24,7 +24,7 @@ const generateRangeSeries = function generateRangeSeries(ranges) {
   for (let i = 0; i < ranges.length; i += 1) {
     const season = ranges[i];
     const { seasonNo } = season;
-    const data = season.weeks.map(week => [week.min, week.max]);
+    const data = season.weeks.map((week) => [week.min, week.max]);
 
     const pointStart = calcPointStart(ranges, i);
 
@@ -65,7 +65,7 @@ const generateTeamSeries = function generateTeamSeries(team, ranges) {
   for (let i = 0; i < rangeSeries.length; i += 1) {
     const rangeSeason = rangeSeries[i];
     const { data: seasonRanges, seasonNo } = rangeSeason;
-    const teamSeason = team.seasons.find(season => season.season.seasonNo === seasonNo);
+    const teamSeason = team.seasons.find((season) => season.season.seasonNo === seasonNo);
     const seasonSeries = [];
 
     if (teamSeason) {
@@ -135,11 +135,11 @@ const generateTeamSeries = function generateTeamSeries(team, ranges) {
  */
 const generatePlotLines = function generatePlotLines(teamSeries, ranges) {
   const plotLines = [];
-  const rangeSeries = teamSeries.filter(singleSeries => singleSeries.type === 'arearange');
+  const rangeSeries = teamSeries.filter((singleSeries) => singleSeries.type === 'arearange');
 
   for (let i = 0; i < ranges.length; i += 1) {
     const season = rangeSeries.find(
-      seasonSeries => seasonSeries.seasonNo === ranges[i].seasonNo,
+      (seasonSeries) => seasonSeries.seasonNo === ranges[i].seasonNo,
     );
     if (season) {
       const pointStart = calcPointStart(ranges, i);
@@ -212,7 +212,7 @@ const generateGameString = function generateGameString(team, point) {
   let losses = 0;
   let ties = 0;
 
-  const season = team.seasons.find(teamSeason => teamSeason.season.seasonNo === seasonNo);
+  const season = team.seasons.find((teamSeason) => teamSeason.season.seasonNo === seasonNo);
 
   season.weeks.forEach((week) => {
     if (week.week && (week.week.weekNo <= weekNo)) {
@@ -232,7 +232,7 @@ const generateGameString = function generateGameString(team, point) {
     }
   });
 
-  const { game } = season.weeks.find(week => week.week && (week.week.weekNo === weekNo));
+  const { game } = season.weeks.find((week) => week.week && (week.week.weekNo === weekNo));
 
   if (game) {
     const isHome = game.homeTeam.team.name === team.name;

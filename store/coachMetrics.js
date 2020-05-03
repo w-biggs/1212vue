@@ -15,7 +15,7 @@ export const actions = {
     const response = await this.$axios.$get(`${apiLink}/coachmetrics/`);
     const rawMetrics = response.coaches;
 
-    const filteredMetrics = rawMetrics.filter(coach => coach.weeks.length > 0);
+    const filteredMetrics = rawMetrics.filter((coach) => coach.weeks.length > 0);
 
     let sortedMetrics = filteredMetrics.map((coach) => {
       const latestWeek = coach.weeks[coach.weeks.length - 1];
@@ -49,21 +49,21 @@ export const actions = {
         for (let j = 0; j < week.games.length; j += 1) {
           const { game } = week.games[j];
           const isHome = typeof game.homeTeam.coaches.find(
-            teamCoach => teamCoach.coach.username === coach.coach.username,
+            (teamCoach) => teamCoach.coach.username === coach.coach.username,
           ) !== 'undefined';
 
           let isSub = false;
           if (isHome) {
             const coachPlays = game.homeTeam.coaches.find(
-              teamCoach => teamCoach.coach.username === coach.coach.username,
+              (teamCoach) => teamCoach.coach.username === coach.coach.username,
             ).plays;
-            const maxPlays = Math.max(...game.homeTeam.coaches.map(teamCoach => teamCoach.plays));
+            const maxPlays = Math.max(...game.homeTeam.coaches.map((teamCoach) => teamCoach.plays));
             isSub = coachPlays !== maxPlays;
           } else {
             const coachPlays = game.awayTeam.coaches.find(
-              teamCoach => teamCoach.coach.username === coach.coach.username,
+              (teamCoach) => teamCoach.coach.username === coach.coach.username,
             ).plays;
-            const maxPlays = Math.max(...game.awayTeam.coaches.map(teamCoach => teamCoach.plays));
+            const maxPlays = Math.max(...game.awayTeam.coaches.map((teamCoach) => teamCoach.plays));
             isSub = coachPlays !== maxPlays;
           }
 
@@ -107,14 +107,14 @@ export const actions = {
     });
 
     console.log('got coach metrics');
-    await commit('setMetrics', metrics.filter(coach => coach.username !== '[deleted]'));
+    await commit('setMetrics', metrics.filter((coach) => coach.username !== '[deleted]'));
     await commit('setRanges', response.ranges);
   },
 };
 
 export const getters = {
-  metrics: state => state.metrics,
-  ranges: state => state.ranges,
+  metrics: (state) => state.metrics,
+  ranges: (state) => state.ranges,
 };
 
 export const state = () => ({

@@ -8,7 +8,7 @@
  * @param {Array<Object>} ranges The Elo ranges for each season.
  */
 const generateCoachSeries = function generateCoachSeries(coach, ranges) {
-  const rangeData = ranges.map(week => [week.min, week.max]);
+  const rangeData = ranges.map((week) => [week.min, week.max]);
 
   const teamSeries = [];
 
@@ -141,7 +141,7 @@ const generateGameString = function generateGameString(coach, point, ranges) {
   const { weekNo, seasonNo } = ranges[index];
 
   const week = coach.weeks.find(
-    coachWeek => coachWeek.week.weekNo === weekNo && coachWeek.week.season.seasonNo === seasonNo,
+    (coachWeek) => coachWeek.week.weekNo === weekNo && coachWeek.week.season.seasonNo === seasonNo,
   );
 
   if (week.games.length > 1) {
@@ -151,7 +151,7 @@ const generateGameString = function generateGameString(coach, point, ranges) {
   const { game } = week.games[0];
 
   const isHome = typeof game.homeTeam.coaches.find(
-    teamCoach => teamCoach.coach.username === coach.username,
+    (teamCoach) => teamCoach.coach.username === coach.username,
   ) !== 'undefined';
 
   const thisTeam = isHome ? game.homeTeam : game.awayTeam;

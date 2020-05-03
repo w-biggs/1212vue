@@ -15,7 +15,7 @@ export const actions = {
 };
 
 export const getters = {
-  seasons: state => state.seasons,
+  seasons: (state) => state.seasons,
 };
 
 export const state = () => ({

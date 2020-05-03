@@ -6,13 +6,13 @@
 </template>
 
 <script>
-import HeaderBar from '../components/HeaderBar';
+import HeaderBar from '../components/HeaderBar.vue';
 
 export default {
   components: {
-    HeaderBar
-  }
-}
+    HeaderBar,
+  },
+};
 </script>
 
 <style lang="scss" scoped>

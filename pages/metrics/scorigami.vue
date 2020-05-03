@@ -5,14 +5,19 @@
       <table class="score-table">
         <tbody>
           <tr>
-            <th></th>
-            <th scope="col" v-for="(n, xIndex) in (scorigami.maxWin + 1)" :key="`0-${xIndex}`">{{ xIndex }}</th>
+            <th />
+            <th v-for="(n, xIndex) in (scorigami.maxWin + 1)" :key="`0-${xIndex}`" scope="col">
+              {{ xIndex }}
+            </th>
           </tr>
-          <tr v-for="(n, yIndex) in (scorigami.maxLoss + 1)" :key="`${yIndex}-0`">
+          <tr v-for="(yN, yIndex) in (scorigami.maxLoss + 1)" :key="`${yIndex}-0`">
             <th scope="col">{{ yIndex }}</th>
-            <td v-for="(n, xIndex) in (scorigami.maxWin + 1)" :key="`${yIndex}-${xIndex}`"
-              :class="isBlack(xIndex, yIndex) ? 'black' : ''"
-              :style="isBlack(xIndex, yIndex) || !scorigami.grid[xIndex][yIndex] ? '' : `background-color: hsl(${calcGradient(scorigami.grid[xIndex][yIndex]).join(',')})`">
+            <td v-for="(xN, xIndex) in (scorigami.maxWin + 1)" :key="`${yIndex}-${xIndex}`"
+                :class="isBlack(xIndex, yIndex) ? 'black' : ''"
+                :style="isBlack(xIndex, yIndex) || !scorigami.grid[xIndex][yIndex] ? '' :
+                  `background-color: hsl(${
+                    calcGradient(scorigami.grid[xIndex][yIndex]).join(',')
+                  })`">
               {{ scorigami.grid[xIndex][yIndex] }}
             </td>
           </tr>
@@ -24,13 +29,12 @@
 
 <script>
 export default {
-  head () {
-    return {
-      title: `Scorigami - ${this.$store.state.misc.siteName}`,
-    }
-  },
   async asyncData({ store }) {
     await store.dispatch('scorigami/get');
+  },
+  created() {
+    // Make it non-reactive since it won't update while we're looking at it
+    this.scorigami = { ...this.$store.state.scorigami.scorigami };
   },
   methods: {
     isBlack(xIndex, yIndex) {
@@ -41,11 +45,12 @@ export default {
       return [hue, '50%', '50%'];
     },
   },
-  created() {
-    // Make it non-reactive since it won't update while we're looking at it
-    this.scorigami = {...this.$store.state.scorigami.scorigami};
+  head() {
+    return {
+      title: `Scorigami - ${this.$store.state.misc.siteName}`,
+    };
   },
-}
+};
 </script>
 
 <style lang="scss" scoped>
