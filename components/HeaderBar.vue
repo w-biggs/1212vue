@@ -17,8 +17,10 @@
           Scores
         </nuxt-link>
       </li>
-      <li class="nav-item is-disabled">
-        <span>Standings</span>
+      <li :class="['nav-item', $nuxt.$route.name === 'standings' ? 'is-active' : '']">
+        <nuxt-link to="/standings">
+          Standings
+        </nuxt-link>
       </li>
       <li :class="['nav-item', $nuxt.$route.name === 'stats' ? 'is-active' : '']">
         <nuxt-link to="/stats">
