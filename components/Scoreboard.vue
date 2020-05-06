@@ -53,7 +53,7 @@ export default {
     });
   },
   methods: {
-    handleScoreboardButton: () => {
+    handleScoreboardButton() {
       this.collapsed = !this.collapsed;
     },
     checkOverflow() {
