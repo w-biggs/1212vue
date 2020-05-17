@@ -103,8 +103,8 @@ export default {
   components: {
     CoachEloChart,
   },
-  async asyncData({ store }) {
-    await store.dispatch('coachMetrics/get');
+  async asyncData({ store, query }) {
+    await store.dispatch('coachMetrics/get', query.limit !== 'false');
   },
   data() {
     return {

@@ -81,6 +81,9 @@ export default {
       } else if (timeDiff > 60) {
         timeString = `${Math.round(timeDiff / 60)} min${Math.round(timeDiff / 60) > 1 ? 's' : ''}`;
       }
+      if (timeDiff < 0) {
+        console.log(currentTimestamp, lastPlayTime, this.game.startTime);
+      }
       if (this.game.live) {
         return `Last play ${timeString} ago >`;
       }

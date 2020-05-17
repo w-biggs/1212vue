@@ -8,8 +8,18 @@ export const mutations = {
   },
 };
 
+export const getters = {
+  metrics: (state) => state.metrics,
+  ranges: (state) => state.ranges,
+};
+
+export const state = () => ({
+  metrics: [],
+  ranges: [],
+});
+
 export const actions = {
-  async get({ commit }) {
+  async get({ commit }, limit) {
     const useRemote = process.browser && (process.env.NODE_ENV === 'production');
     const apiLink = useRemote ? 'https://api.1212.one' : 'http://localhost:12121';
     const response = await this.$axios.$get(`${apiLink}/coachmetrics/`);
@@ -26,7 +36,7 @@ export const actions = {
       };
     }).sort((b, a) => a.elo - b.elo);
 
-    if (useRemote) {
+    if (limit) {
       sortedMetrics = sortedMetrics.slice(0, 10);
     }
 
@@ -111,13 +121,3 @@ export const actions = {
     await commit('setRanges', response.ranges);
   },
 };
-
-export const getters = {
-  metrics: (state) => state.metrics,
-  ranges: (state) => state.ranges,
-};
-
-export const state = () => ({
-  metrics: [],
-  ranges: [],
-});
