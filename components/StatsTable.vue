@@ -5,7 +5,7 @@
         <tr class="top-header">
           <th colspan="2" />
           <th colspan="3">Record</th>
-          <th colspan="9">Combined</th>
+          <th colspan="10">Combined</th>
           <th colspan="14">Offense</th>
           <th colspan="14">Defense</th>
         </tr>
@@ -63,6 +63,10 @@
           <th title="Time Played Per Game" :class="['timePG', sorterClass('timePG')]"
               @click="setSort(false, $event)">
             <span>Time/G</span>
+          </th>
+          <th title="Strength of Schedule" :class="['sos', sorterClass('sos')]"
+              @click="setSort(false, $event)">
+            <span>SoS</span>
           </th>
           <th title="Pass Yards" :class="['off-passYds', sorterClass('off-passYds')]"
               @click="setSort(false, $event)">
@@ -248,6 +252,10 @@ export default {
             stat.title = value.toFixed(3);
             stat.display = value.toFixed(2);
             break;
+          case 'sos':
+            stat.title = value.toFixed(5);
+            stat.display = value.toFixed(3);
+            break;
           default:
             break;
         }
@@ -417,11 +425,11 @@ export default {
     min-width: 2rem;
   }
 
-  .ties, .timePG, .off-adjYardsPG {
+  .ties, .sos, .off-adjYardsPG {
     border-right: 1px solid $border-color;
   }
 
-  .name, th.ties, th.timePG, th.off-adjYardsPG {
+  .name, th.ties, th.sos, th.off-adjYardsPG {
     position: relative;
 
     &::after {
