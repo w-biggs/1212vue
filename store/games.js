@@ -47,6 +47,6 @@ export const state = () => ({
   }],
   current: {
     season: 3,
-    week: 4,
+    week: 5,
   },
 });
