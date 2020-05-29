@@ -9,7 +9,7 @@ export const actions = {
   async get({ commit }) {
     const useRemote = process.browser && (process.env.NODE_ENV === 'production');
     const apiLink = useRemote ? 'https://api.1212.one' : 'http://localhost:12121';
-    const games = await this.$axios.$get(`${apiLink}/games/`);
+    const { games } = await this.$axios.$get(`${apiLink}/games/`);
 
 
     let maxWin = 0;
