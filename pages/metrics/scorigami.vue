@@ -29,8 +29,8 @@
 
 <script>
 export default {
-  async asyncData({ store }) {
-    await store.dispatch('scorigami/get');
+  async asyncData({ store, query }) {
+    await store.dispatch('scorigami/get', query.complete === 'true');
   },
   created() {
     // Make it non-reactive since it won't update while we're looking at it

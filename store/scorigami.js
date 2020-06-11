@@ -6,7 +6,7 @@ export const mutations = {
 };
 
 export const actions = {
-  async get({ commit }) {
+  async get({ commit }, completeOnly) {
     const useRemote = process.browser && (process.env.NODE_ENV === 'production');
     const apiLink = useRemote ? 'https://api.1212.one' : 'http://localhost:12121';
     const { games } = await this.$axios.$get(`${apiLink}/games/`);
@@ -21,26 +21,31 @@ export const actions = {
       const game = games[i];
       // Skip live games
       if (!game.live) {
-        const homeScore = game.homeTeam.stats.score.final;
-        const awayScore = game.awayTeam.stats.score.final;
+        const gameTime = game.homeTeam.stats.timeOfPossession
+          + game.awayTeam.stats.timeOfPossession;
+        // limit to complete games if completeOnly
+        if (!completeOnly || (gameTime >= 1680)) {
+          const homeScore = game.homeTeam.stats.score.final;
+          const awayScore = game.awayTeam.stats.score.final;
 
-        const winScore = Math.max(homeScore, awayScore);
-        const lossScore = Math.min(homeScore, awayScore);
+          const winScore = Math.max(homeScore, awayScore);
+          const lossScore = Math.min(homeScore, awayScore);
 
-        maxWin = Math.max(winScore, maxWin);
-        maxLoss = Math.max(lossScore, maxLoss);
+          maxWin = Math.max(winScore, maxWin);
+          maxLoss = Math.max(lossScore, maxLoss);
 
-        if (!grid[winScore]) {
-          grid[winScore] = [];
+          if (!grid[winScore]) {
+            grid[winScore] = [];
+          }
+
+          if (grid[winScore][lossScore]) {
+            grid[winScore][lossScore] += 1;
+          } else {
+            grid[winScore][lossScore] = 1;
+          }
+
+          maxVal = Math.max(maxVal, grid[winScore][lossScore]);
         }
-
-        if (grid[winScore][lossScore]) {
-          grid[winScore][lossScore] += 1;
-        } else {
-          grid[winScore][lossScore] = 1;
-        }
-
-        maxVal = Math.max(maxVal, grid[winScore][lossScore]);
       }
     }
 
