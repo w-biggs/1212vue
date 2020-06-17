@@ -15,7 +15,7 @@
       <tr v-for="(team, index) in [game.homeTeam, game.awayTeam]" :key="team.team.name">
         <td class="team">
           <LazyImg div-class="team-logo"
-                   :data-bg="require(`~/assets/images/logos/${team.team.abbreviation}.svg`)" />
+                   :data-bg="`/logos/${team.team.abbreviation}.svg`" />
           <span :class="['team-name', game.live
             && ((index === 0) !== game.status.homeOffense)? 'is-defense' : '']">
             {{ team.team.shortName || team.team.name }}

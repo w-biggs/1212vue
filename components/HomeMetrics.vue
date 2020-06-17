@@ -62,7 +62,7 @@
             <td class="team" :data-value="team.name">
               <a href="#" @click="openChart(team, $event)">
                 <LazyImg div-class="team-logo"
-                         :data-bg="require(`~/assets/images/logos/${team.abbreviation}.svg`)"
+                         :data-bg="`/logos/${team.abbreviation}.svg`"
                          aria-hidden="true" />
                 <span>{{ team.name }}</span>
               </a>

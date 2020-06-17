@@ -39,7 +39,7 @@
                 <td>{{ index + 1 }}</td>
                 <td class="team">
                   <LazyImg div-class="team-logo"
-                           :data-bg="require(`~/assets/images/logos/${team.abbreviation}.svg`)"
+                           :data-bg="`/logos/${team.abbreviation}.svg`"
                            aria-hidden="true" />
                   <span class="team-full">{{ team.name }}</span>
                   <span class="team-abbr">{{ team.abbreviation }}</span>
