@@ -73,24 +73,25 @@
       </div>
     </div>
     <div class="errata">
-      <p>Tiebreakers are decided as follows:</p>
+      <p>Standings are decided as follows:</p>
       <ol>
-        <li>Conference wins</li>
-        <li>Conference games over .500</li>
-        <li>Head-to-head</li>
-        <li>Division wins</li>
-        <li>Division games over .500</li>
-        <li>Record in common games</li>
+        <li>Teams' conference wins</li>
+        <li>Teams' conference games over .500</li>
+        <li>Head-to-head (or head-to-head sweep if 3+ teams)</li>
+        <li>Teams' division wins</li>
+        <li>Teams' ivision games over .500</li>
+        <li>Teams' record in common games</li>
         <li>
-          Record vs. each conference/divisional opponent in descending order until there is a
-          discrepancy
+          Teams' record vs. the next highest placed teams in their division, then conference, in
+          order of finish. (If a group of tied teams is arrived at, look at each each team's record
+          vs. the collective tied teams as a group, rather than record against the individual
+          teams.)
         </li>
       </ol>
       <p>
-        However, the 7th tiebreaker is currently not possible to calculate automatically without
-        running into infinite loop issues, so this has been replaced here by conference point
-        differential per game and division point differential per game. By the end of the season,
-        though, that tiebreaker shound rarely (or never) be reached, so this won't really matter.
+        However, the 7th tiebreaker is currently not implemented here because I haven't taken the
+        time to code that yet, so don't take the above standings as pure fact - some tiebreakers may
+        be a bit complicated.
       </p>
       <p>
         Head-to-head and common games tiebreakers with 3+ teams are also not handled correctly, and
