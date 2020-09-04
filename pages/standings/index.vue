@@ -79,7 +79,7 @@
         <li>Teams' conference games over .500</li>
         <li>Head-to-head (or head-to-head sweep if 3+ teams)</li>
         <li>Teams' division wins</li>
-        <li>Teams' ivision games over .500</li>
+        <li>Teams' division games over .500</li>
         <li>Teams' record in common games</li>
         <li>
           Teams' record vs. the next highest placed teams in their division, then conference, in
@@ -91,7 +91,7 @@
       <p>
         However, the 7th tiebreaker is currently not implemented here because I haven't taken the
         time to code that yet, so don't take the above standings as pure fact - some tiebreakers may
-        be a bit complicated.
+        need to be verified by hand.
       </p>
       <p>
         Head-to-head and common games tiebreakers with 3+ teams are also not handled correctly, and
