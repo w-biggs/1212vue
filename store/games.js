@@ -46,7 +46,7 @@ export const state = () => ({
     live: false,
   }],
   current: {
-    season: 3,
-    week: 12,
+    season: 4,
+    week: 1,
   },
 });
