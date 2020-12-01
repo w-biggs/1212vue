@@ -55,7 +55,7 @@ export const actions = {
         div: currentDiv.name,
         conf: currentConf,
         elo: latestWeek.elo.elo,
-        wPN: latestSeason.wPN,
+        wPN: latestSeason.wPN ? latestSeason.wPN : 0,
         color: team.team.color,
         record: {
           wins,
