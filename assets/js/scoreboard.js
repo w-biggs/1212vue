@@ -6,6 +6,10 @@
 const getMaxHeight = function getMaxHeightOfCollapsedScoreboard() {
   const scoreboardGame = document.querySelector('.scoreboard .game');
 
+  if (!scoreboardGame) {
+    return 0;
+  }
+
   // The height of a game in the scoreboard.
   const gameHeight = scoreboardGame.getBoundingClientRect().height;
   const gameStyle = getComputedStyle(scoreboardGame);
