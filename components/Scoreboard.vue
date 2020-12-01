@@ -6,6 +6,9 @@
         <template v-for="game in games">
           <ScoreboardGame :key="game.gameId" :game="game" />
         </template>
+        <div v-if="games.length === 0" class="nogames">
+          *crickets*
+        </div>
       </div>
       <div class="scoreboard-expand">
         <button :aria-expanded="!collapsed" @click="handleScoreboardButton">
@@ -60,10 +63,14 @@ export default {
       // Set the max height of the scoreboard to two rows.
       const maxHeight = getMaxHeight();
 
-      this.gamesMaxHeight = `${maxHeight.toFixed(2)}px`;
+      if (maxHeight) {
+        this.gamesMaxHeight = `${maxHeight.toFixed(2)}px`;
 
-      // Check if button should be shown
-      this.overflowing = checkShowButton(maxHeight);
+        // Check if button should be shown
+        this.overflowing = checkShowButton(maxHeight);
+      } else {
+        this.overflowing = false;
+      }
     },
   },
 };

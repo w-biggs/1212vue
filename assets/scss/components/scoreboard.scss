@@ -36,6 +36,12 @@
   align-items: flex-start;
   justify-content: space-around;
   overflow: hidden;
+
+  .nogames {
+    padding: .5em 0;
+    font-style: italic;
+    opacity: 0.6;
+  }
 }
 
 .scoreboard.is-overflowing .scoreboard-expand{
