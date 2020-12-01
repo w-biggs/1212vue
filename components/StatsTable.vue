@@ -272,7 +272,7 @@ export default {
         }
         for (let i = 0; i < Object.getOwnPropertyNames(object).length; i += 1) {
           const statName = Object.getOwnPropertyNames(object)[i];
-          const value = object[statName];
+          const value = object[statName] === null ? 0 : object[statName];
           if (typeof value === 'object') {
             const objStats = parseStatsObj(value, prefix ? name : statName);
             stats = stats.concat(objStats);
