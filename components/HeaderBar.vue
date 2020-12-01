@@ -4,8 +4,8 @@
       <img :src="require(`../assets/images/${siteLogo}`)" :alt="siteName" :data-url="siteLogo">
     </nuxt-link>
     <ul class="nav" role="navigation">
-      <li class="nav-item is-disabled">
-        <span>Articles</span>
+      <li class="nav-item">
+        <a href="https://fcfbovertime.wordpress.com">Articles</a>
       </li>
       <li :class="[
         'nav-item',
