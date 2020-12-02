@@ -102,6 +102,9 @@ const generateTeamSeries = function generateTeamSeries(team, ranges) {
           hover: {
             lineWidthPlus: 0,
           },
+          inactive: {
+            opacity: 1,
+          },
         },
         marker: {
           enabled: false,
@@ -118,7 +121,6 @@ const generateTeamSeries = function generateTeamSeries(team, ranges) {
           },
         },
         id: `S${seasonNo}`,
-        linkedTo: `S${(seasonNo % (rangeSeries.length)) + 1}`,
         showInLegend: (seasonNo === 1),
         pointStart,
       });
